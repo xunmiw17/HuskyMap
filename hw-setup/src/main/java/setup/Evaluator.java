@@ -51,16 +51,16 @@ public class Evaluator {
   public static float evalPoly2(float[] A, int v) {
     float val = 0;  // NOTE: do not change this line
 
-    int j = -1;
+    int j = A.length - 1;  // TODO: Change the initial value
 
     // Note that the invariant does not include "i" anymore, so that may
     // not be needed in this version.
 
     // Inv: val = A[j] v^0 + ... + A[1] v^{j-1} + A[0] v^j
     while (j != A.length - 1) {
-      j = j + 1;
-      val = val * v;
-      val = val + A[j];
+      // TODO: fill in these lines
+
+
     }
 
     // Post: val = A[n-1] + A[n-2] v + ... + A[1] v^{n-2} + A[0] v^{n-1}

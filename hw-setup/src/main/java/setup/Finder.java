@@ -46,16 +46,15 @@ public class Finder {
    * @return an index i such that A[i] = val or -1 if none exists
    */
   public static int find2(int[] A, int val) {
-    int i = -1;
+    int i = 999;  // TODO: change the initial value
 
     // Inv: A[0] != val, A[1] != val, ..., A[i] != val
-    while (i != A.length - 1) {
+    while (i != 999) {  // TODO: change the condition
       assert checkInv(A, val, i);  // NOTE: this statement must remain here
       i = i + 1;  // NOTE: this statement must remain here
 
-      if (A[i] == val) {
-        return i;
-      }
+      // TODO: fill in the missing code here
+
     }
 
     assert checkInv(A, val, i);  // NOTE: this statement must remain here
@@ -68,16 +67,15 @@ public class Finder {
    * @return an index i such that A[i] = val or -1 if none exists
    */
   public static int find3(int[] A, int val) {
-    int i = 0;
+    int i = 999;  // TODO: change the initial value
 
     // Inv: A[0] != val, A[1] != val, ..., A[i-1] != val
-    while (i != A.length) {
+    while (i != 999) {  // TODO: change the condition
       assert checkInv(A, val, i-1);  // NOTE: this statement must remain here
       i = i + 1;  // NOTE: this statement must remain here
 
-      if (A[i - 1] == val) {
-        return i - 1;
-      }
+      // TODO: fill in the missing code here
+
     }
 
     assert checkInv(A, val, i-1);  // NOTE: this statement must remain here
@@ -90,15 +88,13 @@ public class Finder {
    * @return an index i such that A[i] = val or -1 if none exists
    */
   public static int find4(int[] A, int val) {
-    int i = -1;
+    int i = 999;  // TODO: change the initial value
 
     // Inv: A[0] != val, A[1] != val, ..., A[i] != val
-    while (i != A.length - 1) {
+    while (i != 999) {  // TODO: change the condition
       assert checkInv(A, val, i);  // NOTE: this statement must remain here
 
-      if (A[i + 1] == val) {
-        return i + 1;
-      }
+      // TODO: fill in the missing code here
 
       i = i + 1;  // NOTE: this statement must remain here
     }
@@ -116,7 +112,7 @@ public class Finder {
    */
   private static boolean checkInv(int[] A, int val, int i) {
     for (int j = 0; j <= i; j++) {
-      if (A[i] == val)
+      if (A[j] == val)
         return false;
     }
     return true;
