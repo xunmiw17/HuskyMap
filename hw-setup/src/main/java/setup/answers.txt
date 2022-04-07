@@ -4,17 +4,21 @@
 1. Why did Fibonacci fail the testThrowsIllegalArgumentException< test? What (if anything) did
 you have to do to fix it? If you did not have to change anything to fix this issue, explain why.
 
+It failed the testThrowsIllegalArgumentException test because it threw IllegalArgumentException when n is equal to 0,
+which is non-negative number. I had to change the condition to throw an IllegalArgumentException from n <= 0 to n < 0.
 
 
 2. Why did Fibonacci fail the testBaseCase test? What (if anything) did you have to do to fix
 it? If you did not have to change anything to fix this issue, explain why.
 
-
+It failed the testBaseCase test because it threw an IllegalArgumentException when n is equal to 0. Same as above, I had
+to change the condition to throw an IllegalArgumentException from n <= 0 to n < 0.
 
 3.Why did Fibonacci fail the testInductiveCase test? What (if anything) did you have to do to
 fix it? If you did not have to change anything to fix this issue, explain why.
 
-
+It failed the testInductiveCase test because when n is equal to 2, it is supposed to return 2 (since the first index of
+the sequence is 0) but it actually returned 1. To fix it, I had to change the condition to return 1 from n <= 2 to n < 2.
 
 ## Part 8: Debugger Tutorial
 
