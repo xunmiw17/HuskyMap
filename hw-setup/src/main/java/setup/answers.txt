@@ -25,14 +25,35 @@ the sequence is 0) but it actually returned 1. To fix it, I had to change the co
 1. What are the values of "x", "y", and "sum" printed by your statement? Why was x not equal 
 to the first integer entered here, and how could we fix this?
 
-
+The values of "x", "y", and "sum" are 4, 4, and 0 respectively. x was not equal to the first integer entered because
+we calculate "x" by dividing the first integer by 2 and then multiplying the result by 2. Since division in Java rounds
+down to an integer, the result of 5 / 2 would be 2. To fix this, we need to avoid the "divide and then multiply" approach
+and directly give x the value of the first integer entered.
 
 2. What are all the names and values listed in the “Variables” panel? What does the “frames” 
 tab list as the current method and line number? (Write down the text that was highlighted when 
 the Debug perspective first opened.)
 
-
+x = 3 and y = 4 are listed in the "Variables" panel. The current method listed in the "frames" tab is "computeSum", and
+the line number is 45.
 
 3. What are all the names and values listed in the “Variables” panel after each of the two step overs?
+
+After the first "step over", the listed names and values are:
+    args = [],
+    console = java.util.Scanner[delimiters=\p{javaWhitespace}+][position=3][match valid=true][need input=false]
+                [source closed=false][skipped=false][group separator=\x{2c}][decimal separator=\x{2e}][positive prefix=]
+                [negative prefix=\Q-\E][positive suffix=][negative suffix=][NaN string=\QNaN\E][infinity string=\Q∞\E],
+    x = 3,
+    y = 4
+
+After the second "step over", the listed names and values are:
+    args = [],
+    console = java.util.Scanner[delimiters=\p{javaWhitespace}+][position=3][match valid=true][need input=false]
+                [source closed=false][skipped=false][group separator=\x{2c}][decimal separator=\x{2e}][positive prefix=]
+                [negative prefix=\Q-\E][positive suffix=][negative suffix=][NaN string=\QNaN\E][infinity string=\Q∞\E],
+    x = 3,
+    y = 4,
+    sum = -1
 
 
