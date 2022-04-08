@@ -20,7 +20,7 @@ package setup;
 public class HelloWorld {
 
     /**
-     * The greeting to display when this getGreeting() is invoked
+     * The greeting to display when this getGreeting() is invoked.
      */
     public static final String GREETING = "Hello World!";
 
