@@ -64,17 +64,18 @@ public class Natural {
    *     0 if none are non-zero
    */
   public static int leadingDigit(int[] digits) {
-    // TODO: Implement this method with a loop, and include a loop invariant.
-    //       Your code must be correct with the invariant you write (tests don't check this!).
-    //       Include an explanation of why postcondition holds at each return statement.
-    //       You can use the template given right before the postcondition in this method.
 
-    int i = 0;  // TODO: feel free to change 0 to something else
+    int i = digits.length - 1;
 
-    // TODO: write your loop here
+    // {{ Inv: D[i+1] = ... = D[n-1] = 0 }}
+    // Each time we are at the top of the loop, we ensure that D[i+1] = ... = D[n-1] = 0
+    while (digits[i] == 0 && i != 0) {
+      i = i - 1;
+    }
 
-    // At this point in the code, we know that _________.
-    // This implies the postcondition below, since __________.
+    // At this point in the code, we know that the loop invariant still holds, and the while loop condition fails.
+    // This implies the postcondition below, since the loop invariant says D[i+1] = ... = D[n-1] = 0, and we also have
+    // the negation of the while loop condition, which gives us either D[i] != 0 or i = 0.
 
     // Post: D[i+1], ..., D[n-1] are all zero and (D[i] != 0 or i = 0)
     return i;
@@ -219,18 +220,21 @@ public class Natural {
    * @return The string of digits corresponding to this value in this base.
    */
   public String toString() {
-    // TODO: Implement this method with a loop, and include a loop invariant.
-    //       Your code must be correct with the invariant you write (tests don't check this!).
-    //       Include an explanation of why postcondition holds at each return statement.
-    //       You can use the template given right before the postcondition in this method.
-
 
     StringBuilder buf = new StringBuilder();
+    int i = this.digits.length;
 
-    // TODO: write your loop here
+    // {{ Inv: buf = ch(D[n-1]), ch(D[n-2]), ..., ch(D[i]) }}
+    // Each time we are at the top of the loop, we ensure that buf = ch(D[n-1]), ch(D[n-2]), ..., ch(D[i]).
+    while (i != 0) {
+      i = i - 1;
+      buf.append(BaseDigits.digitToChar(digits[i], this.base));
+    }
 
-    // At this point in the code, we know that _________.
-    // This implies the postcondition below, since __________.
+    // At this point in the code, we know that the loop invariant holds, and the negation of the loop condition also holds.
+    // This implies the postcondition below, since the loop invariant tells us that buf = ch(D[n-1]), ch(D[n-2]), ..., ch(D[i]),
+    // and the negation of the loop condition gives i = 0 , which we plug into the loop invariant and the output is
+    // buf = ch(D[n-1]), ch(D[n-2]), ..., ch(D[0]), which is exactly the postcondition.
 
     // Post: buf = ch(D[n-1]), ch(D[n-2]), ..., ch(D[0])
     return buf.toString();
@@ -264,7 +268,7 @@ public class Natural {
     // the array newDigits. The first loop handles the digits that exist in
     // both this and other, and the second loop handles the digits that exist
     // only in this (i.e., when other is shorter). After the loops, newDigits
-    // will represent the correct value, but it it will not yet satisfy the RI.
+    // will represent the correct value, but it will not yet satisfy the RI.
 
     // TODO: Before implementing them, write a summary comment above each of
     //       the next two loops, explaining in English what it does.
