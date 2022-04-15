@@ -270,34 +270,37 @@ public class Natural {
     // only in this (i.e., when other is shorter). After the loops, newDigits
     // will represent the correct value, but it will not yet satisfy the RI.
 
-    // TODO: Before implementing them, write a summary comment above each of
-    //       the next two loops, explaining in English what it does.
+    int i = 0;
 
-
-    int i = this.digits.length;  // TODO: Fill in the initialization code such that the invariant holds initially.
-
-    // TODO: Summary comment here
+    // This loop sums up the corresponding digits of this and other and it only handles digits that exist in both this
+    // and other.
     // Inv: D[0] = A[0]+B[0], D[1] = A[1]+B[1], ..., D[i-1] = A[i-1]+B[i-1],
     //      where D = new_digits, A = this.digits, and B = other.digits
     while (i != other.digits.length) {
 
-      // TODO: Implement the body of this loop, such that it's correct with the given invariant.
-
+      newDigits[i] = this.digits[i] + other.digits[i];
+      i = i + 1;
     }
 
-    // TODO: Explain why we have D[0] < 2b, D[1] < 2b, ..., D[n-1] < 2b
+    // We know from the representation invariant, which holds at the top of the method, that for i = 0 .. n-1,
+    // we have 0 <= digits[i] < b for both this and other. Therefore, D[i], the sum of this.digits[i] and other.digits[i],
+    // should be larger than or equal to 0 and less than 2b for i = 0 .. n-1. Thus, we have D[0] < 2b, D[1] < 2b, ...,
+    // D[n-1] < 2b.
 
-    // TODO: Explain why the invariant of the loop below holds initially (no code needed).
+    // At this point, we just exit the while loop above, which means the loop invariant above still holds, which is
+    // D[0] = A[0]+B[0], D[1] = A[1]+B[1], ..., D[i-1] = A[i-1]+B[i-1], and the negation of the loop condition above holds,
+    // which is i = other.digits.length. Therefore, i-1 < other.digits.length, meaning that B[k] = other.digits[k], which
+    // conforms to our invariant above. Thus, the loop below holds initially.
 
-    // TODO: Summary comment here
+    // This loop continues to fill in the digits which exist in this but does not exist in other. In this case, there
+    // are no more digits in other, so we add every remaining digit in this to 0.
     // Inv: D[0] = A[0]+B[0], D[1] = A[1]+B[1], ..., D[i-1] = A[i-1]+B[i-1],
     //      where B[k] = other.digits[k] if k < other.digits.length and
     //            B[k] = 0               otherwise
     while (i != this.digits.length) {
 
-      // TODO: Implement the body of this loop, such that it's correct with the given invariant.
-
-
+      newDigits[i] = this.digits[i] + 0;
+      i = i + 1;
     }
 
     // Have: D[0] = A[0]+B[0], D[1] = A[1]+B[1], ..., D[n-1] = A[n-1]+B[n-1],
