@@ -188,28 +188,28 @@ public class Natural {
 
     // Hints: 1. Compare this invariant to the one from getValue above
     //        2. Take advantage of the existing methods, plus and times.
-    //
-    // TODO: Implement the method below, whose invariant is provided.
-    //       Your code must be correct with the invariant written.
-    //       Include a comment explaining why the postcondition follows from
-    //           the facts we know from above it.
 
     Natural r = new Natural(base);
     Natural b = new Natural(base, this.base);
 
-    // TODO: Initialize i,j such that the invariant below holds initially.
-    int i = -1;
+    int i = this.digits.length;
     int j = -1;
 
     // Inv: r = (base, D[i] b^0 + D[i+1] b^1 + ... + D[n-1] b^j) and i+j = n-1,
     //      where D = this.digits, n = this.digits.length, and b = this.base
-    while (i != -1) {  // TODO: Replace the condition here with a suitable one.
+    while (i != 0) {
 
-      // TODO: Implement the body of this loop, so that it's correct with the given invariant.
-
+      i = i - 1;
+      j = j + 1;
+      r = r.times(b);
+      r = r.plus(new Natural(base, this.digits[i]));
     }
 
-    // TODO: Explain why the postcondition holds at the end of this code.
+    // The postcondition holds because at the end we have the loop invariant, which is
+    // r = (base, D[i] b^0 + D[i+1] b^1 + ... + D[n-1] b^j) and i + j = n - 1, and we also have the negation of the loop
+    // condition, which gives us i = 0. Thus, j = n - 1 and r is then equal to (base, D[0] b^0 + D[1] b^1 + ... + D[n-1] b^{n-1}),
+    // which is equivalent to (base, this.value()).
+
     // Post: r = (base, this.value())
     return r;
   }
