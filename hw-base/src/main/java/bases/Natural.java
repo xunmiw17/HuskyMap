@@ -308,31 +308,23 @@ public class Natural {
     checkZipSum(other.digits, this.digits, newDigits);
 
 
-    // TODO: Remove the next two lines before starting work on the loop below!
-    // They cause the code to always return null, which we only want to do
-    // while you are working on the two loops above. Once those work, remove
-    // these lines and start on the third and final loop below.
-    if (this.digits.length < newDigits.length)
-      return null;
-
-
-    // TODO: Explain why we have
-    //         this.value + other.value = D[0] + D[1] b + ... + D[n-1] b^{n-1}
+    // From the postcondition of getValue(), we know this.value = A[0] + A[1]b + ... + A[n-1]b^{n-1}, and other.value =
+    // B[0] + B[1]b + ... + B[n-1]b^{n-1}. Thus, this.value + other.value = (A[0] + A[1]b + ... + A[n-1]b^{n-1}) +
+    // (B[0] + B[1]b + ... + B[n-1]b^{n-1}) = (A[0]+B[0]) + (A[1]b+B[1]b) + ... + (A[n-1]b^{n-1}+B[n-1]b^{n-1}) =
+    // D[0] + D[1]b + ... + D[n-1]b^{n-1}.
 
     // The next loop changes the values in newDigits so that it satisfies the
     // part of the RI that says each digit is between 0 and b-1. It does this
     // *without* changing the value that the digits represent, so they will
     // still represent the value this.value + other.value.
 
-    i = -1;  // TODO: Change this so that the invariant holds initially.
+    i = 0;
 
     // Inv: this.value + other.value = D[0] + D[1] b + ... + D[n-1] b^{n-1} and
     //      D[0] < b, D[1] < b, ..., D[i-1] < b and
     //      D[i] < 2b, D[i+1] < 2b, ..., D[n-1] < 2b
-    while (i != -1) {  // TODO: Replace the condition here with a suitable one.
+    while (i != this.digits.length) {
 
-      // TODO: Implement the body of this loop. The reader must to be able to
-      //       reason through why your code is correct, so keep it simple!
       // NOTE: Do not use div or mod. Simple arithmetic should be enough.
 
       // Hint: Subtracting b from D[i] while adding 1 to D[i+1] does not change
@@ -342,11 +334,22 @@ public class Natural {
       //   = D[i] b^i - b^{i+1} + D[i+1] b^{i+1} + b^{i+1}
       //   = D[i] b^i + D[i+1] b^{i+1]
 
+      if (newDigits[i] >= base) {
+        newDigits[i] = newDigits[i] - base;
+        newDigits[i + 1] = newDigits[i + 1] + 1;
+      }
+
       i = i + 1;  // NOTE: do not change this line
     }
 
-    // TODO: Explain why (1) the postcondition holds and
-    //                   (2) the preconditions of this constructor hold.
+    // (1) The postcondition must hold because after we exit the while loop, we have the negation of the loop condition,
+    // which is i = this.digits.length. Therefore, we now have this.value + other.value = D[0] + D[1] b + ... + D[n-1] b^{n-1},
+    // and since i = n, we have D[0] < b, D[1] < b, ..., D[n-1] < b.
+
+    // (2) The preconditions of this constructor hold because this.base must be valid (2 <= this.base <= 36) before this
+    // method call, and newDigits.length >= 1 because newDigits.length = this.digits.length + 1 and this.digits.length >= 1,
+    // and the postcondition of the loop specifies that D[0] < b, D[1] < b, ..., D[n-1] < b, meaning that all digits are
+    // between 0 and b - 1.
     return new Natural(this.base, newDigits);
   }
 
