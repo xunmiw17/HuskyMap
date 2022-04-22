@@ -12,15 +12,23 @@ public class SimpleSetTest {
   /** Tests calculating the size of a set. */
   @Test
   public void testSize() {
-    // TODO: implement this
-    
+    assertEquals(0f, S.size(), 1E-4);
+    assertEquals(1f, S1.size(), 1E-4);
+    assertEquals(3f, S123.size(), 1E-4);
+    assertEquals(Float.POSITIVE_INFINITY, R.size(), 1E-4);
+    assertEquals(Float.POSITIVE_INFINITY, R1.size(), 1E-4);
+    assertEquals(Float.POSITIVE_INFINITY, R123.size(), 1E-4);
   }
 
   /** Tests converting a set to a string. */
   @Test
   public void testToString() {
-    // TODO: implement this
-    
+    assertEquals("{}", S.toString());
+    assertEquals("{1.0}", S1.toString());
+    assertEquals("{1.0, 2.0, 3.0}", S123.toString());
+    assertEquals("R", R.toString());
+    assertEquals("R \\ {1.0}", R1.toString());
+    assertEquals("R \\ {1.0, 2.0, 3.0}", R123.toString());
   }
 
   private static SimpleSet S = new SimpleSet(new float[0]);

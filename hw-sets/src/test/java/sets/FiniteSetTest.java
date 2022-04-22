@@ -52,29 +52,59 @@ public class FiniteSetTest {
     assertEquals(S1.size(), 1);
     assertEquals(S12.size(), 2);
   }
-  
-  // TODO: Feel free to initialize (private static) FiniteSet objects here
-  //       if you plan to use them for the tests below.
+
+  private static FiniteSet FS0 = FiniteSet.of(new float[0]);
+  private static FiniteSet FS0Another = FiniteSet.of(new float[0]);
+  private static FiniteSet FS1 = FiniteSet.of(new float[] {1});
+  private static FiniteSet FS1Another = FiniteSet.of(new float[] {2});
+  private static FiniteSet FS123 = FiniteSet.of(new float[] {1, 2, 3});
+  private static FiniteSet FS456 = FiniteSet.of(new float[] {4, 5, 6});
+  private static FiniteSet FS45 = FiniteSet.of(new float[] {4, 5});
+  private static FiniteSet FSNegative = FiniteSet.of(new float[] {-2, 2});
+
 
   /** Tests forming the union of two finite sets. */
   @Test
   public void testUnion() {
-    // TODO: implement this
-    
+    assertEquals(Arrays.asList(1f, 2f, 3f), FS0.union(FS123).getPoints());
+    assertEquals(Arrays.asList(), FS0.union(FS0Another).getPoints());
+    assertEquals(Arrays.asList(1f, 4f, 5f, 6f), FS1.union(FS456).getPoints());
+    assertEquals(Arrays.asList(1f, 2f), FS1.union(FS1Another).getPoints());
+    assertEquals(Arrays.asList(1f, 2f, 3f, 4f, 5f, 6f), FS123.union(FS456).getPoints());
+    assertEquals(Arrays.asList(1f, 2f, 3f, 4f, 5f), FS123.union(FS45).getPoints());
+    assertEquals(Arrays.asList(4f, 5f, 6f), FS456.union(FS45).getPoints());
+    assertEquals(Arrays.asList(1f, 2f, 3f), FS123.union(FS123).getPoints());
+    assertEquals(Arrays.asList(-2f, 2f, 4f, 5f, 6f), FSNegative.union(FS456).getPoints());
   }
 
   /** Tests forming the intersection of two finite sets. */
   @Test
   public void testIntersection() {
-    // TODO: implement this
-    
+    assertEquals(Arrays.asList(), FS0.intersection(FS123).getPoints());
+    assertEquals(Arrays.asList(), FS0.intersection(FS0Another).getPoints());
+    assertEquals(Arrays.asList(), FS1.intersection(FS456).getPoints());
+    assertEquals(Arrays.asList(), FS1.intersection(FS1Another).getPoints());
+    assertEquals(Arrays.asList(), FS123.intersection(FS456).getPoints());
+    assertEquals(Arrays.asList(), FS123.intersection(FS45).getPoints());
+    assertEquals(Arrays.asList(4f, 5f), FS456.intersection(FS45).getPoints());
+    assertEquals(Arrays.asList(1f, 2f, 3f), FS123.intersection(FS123).getPoints());
+    assertEquals(Arrays.asList(), FSNegative.intersection(FS456).getPoints());
   }
 
   /** Tests forming the difference of two finite sets. */
   @Test
   public void testDifference() {
-    // TODO: implement this
-    
+    assertEquals(Arrays.asList(), FS0.difference(FS123).getPoints());
+    assertEquals(Arrays.asList(1f, 2f, 3f), FS123.difference(FS0).getPoints());
+    assertEquals(Arrays.asList(), FS0.difference(FS0Another).getPoints());
+    assertEquals(Arrays.asList(1f), FS1.difference(FS456).getPoints());
+    assertEquals(Arrays.asList(4f, 5f, 6f), FS456.difference(FS1).getPoints());
+    assertEquals(Arrays.asList(1f), FS1.difference(FS1Another).getPoints());
+    assertEquals(Arrays.asList(1f, 2f, 3f), FS123.difference(FS456).getPoints());
+    assertEquals(Arrays.asList(1f, 2f, 3f), FS123.difference(FS45).getPoints());
+    assertEquals(Arrays.asList(6f), FS456.difference(FS45).getPoints());
+    assertEquals(Arrays.asList(), FS123.difference(FS123).getPoints());
+    assertEquals(Arrays.asList(-2f, 2f), FSNegative.difference(FS456).getPoints());
   }
 
 }
