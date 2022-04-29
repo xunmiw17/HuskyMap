@@ -9,7 +9,13 @@ included each one; if not, explain whether you considered additional classes and
 not to include them.
 
 
-TODO: Your answer here!
+I included the "addEdge" and "addNode" methods to give a graph the basic capabilities of adding a node or an edge to it.
+The "listNodes" function enables the client to see all the current nodes in the graph. The "childrenOf" method lists all
+the children of a given parent node. I included the "isConnected" method to check if there is a path from the given source
+node to the given destination node because it is a common function in a graph to check if two nodes are connected. The
+"containsNode" method offers convenience for both the client and the graph class we defined to check if the graph contains
+the given node. The "size" and "isEmpty" methods are common in collections and our graph class can also be seen as a
+collection of nodes and edges. Here we only check the nodes because edges depend on nodes.
 
 
 ## Part 3
