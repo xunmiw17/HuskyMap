@@ -9,13 +9,20 @@ included each one; if not, explain whether you considered additional classes and
 not to include them.
 
 
-I included the "addEdge" and "addNode" methods to give a graph the basic capabilities of adding a node or an edge to it.
-The "listNodes" function enables the client to see all the current nodes in the graph. The "childrenOf" method lists all
-the children of a given parent node. I included the "isConnected" method to check if there is a path from the given source
-node to the given destination node because it is a common function in a graph to check if two nodes are connected. The
-"containsNode" method offers convenience for both the client and the graph class we defined to check if the graph contains
-the given node. The "size" and "isEmpty" methods are common in collections and our graph class can also be seen as a
-collection of nodes and edges. Here we only check the nodes because edges depend on nodes.
+I included the Graph.java class to represent a graph. Inside the class I included the "addEdge" and "addNode" methods to
+give a graph the basic capabilities of adding a node or an edge to it. The "listNodes" function enables the client to see
+all the current nodes in the graph. The "childrenOf" method lists all the directed labeled edges of a given parent node.
+I included the "isConnected" method to check if there is a path from the given source node to the given destination node
+because it is a common function in a graph to check if two nodes are connected. The "containsNode" method offers convenience
+for both the client and the graph class we defined to check if the graph contains the given node. The "size" and "isEmpty"
+methods are common in collections and our graph class can also be seen as a collection of nodes and edges. Here we only
+check the nodes because edges depend on nodes.
+
+Also, another class I included is DirectedLabeledEdge.java which represents a directed labeled edge in a graph. The reason
+I added this class is that in a directed labeled graph, we not only want to store the nodes but also the edges, and it is
+the best to group the child node and the label of the edge together as an entirety so that when we get the child/children
+of a node, we are also able to get the associated edge label conveniently. This class is immutable and contains only the
+"getChild" and "getLabel" methods to get the child node and the edge label since this class is used for convenient access.
 
 
 ## Part 3

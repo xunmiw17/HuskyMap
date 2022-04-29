@@ -59,15 +59,16 @@ public class Graph {
     }
 
     /**
-     * Returns all the children of a given parent node in the directed labeled graph.
+     * Returns all the directed labeled edges of a given parent node in the directed labeled graph, each edge containing
+     * information of the label of the edge and the child node
      *
      * @spec.requires parent != null and parent.length() is larger than 0
      *
      * @param parent the parent node
-     * @return a set of nodes which are the children of the given parent node
+     * @return a set of directed labeled edges, each containing the label of the edge and the child node
      * @throws IllegalArgumentException if the given parent node is not in the graph
      */
-    public Set<String> childrenOf(String parent) {
+    public Set<DirectedLabeledEdge> childrenOf(String parent) {
         return null;
     }
 
