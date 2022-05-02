@@ -1,5 +1,6 @@
 package graph;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -14,11 +15,11 @@ public class Graph {
      * @spec.effects creates a new empty directed labeled graph
      */
     public Graph() {
-
+        throw new RuntimeException("not yet implemented");
     }
 
     /**
-     * Adds a new node to the directed labeled graph if the node is not already present in the graph.
+     * Adds a new node to the directed labeled graph if the node is not already present in the graph
      *
      * @spec.requires node != null and node.length() is larger than 0
      * @spec.modifies this
@@ -27,7 +28,7 @@ public class Graph {
      * @param node the node to be added to the graph
      */
     public void addNode(String node) {
-
+        throw new RuntimeException("not yet implemented");
     }
 
     /**
@@ -43,10 +44,9 @@ public class Graph {
      * @param parent the parent node
      * @param child the child node
      * @param label the label on the edge
-     * @throws IllegalArgumentException if at least one of parent, child, or label is empty or null
      */
     public void addEdge(String parent, String child, String label) {
-
+        throw new RuntimeException("not yet implemented");
     }
 
     /**
@@ -55,7 +55,7 @@ public class Graph {
      * @return a set of all nodes that are currently in this graph
      */
     public Set<String> listNodes() {
-        return null;
+        throw new RuntimeException("not yet implemented");
     }
 
     /**
@@ -69,7 +69,7 @@ public class Graph {
      * @throws IllegalArgumentException if the given parent node is not in the graph
      */
     public Set<DirectedLabeledEdge> childrenOf(String parent) {
-        return null;
+        throw new RuntimeException("not yet implemented");
     }
 
     /**
@@ -80,12 +80,11 @@ public class Graph {
      *
      * @param src the source node
      * @param dest the destination node
-     * @return true if the source and destination nodes are connected, or there is a path from the source node to the
-     *          destination node
+     * @return true if there is a path from the source node to the destination node, or they are the same node
      * @throws IllegalArgumentException if the graph does not contain src or dest node
      */
     public boolean isConnected(String src, String dest) {
-        return false;
+        throw new RuntimeException("not yet implemented");
     }
 
     /**
@@ -97,7 +96,31 @@ public class Graph {
      * @return true if the graph contains the node, false otherwise
      */
     public boolean containsNode(String node) {
-        return false;
+        throw new RuntimeException("not yet implemented");
+    }
+
+    /**
+     * Returns whether the directed labeled graph contains the given edge
+     *
+     * @spec.requires parent != null and parent.length() is larger than 0, child != null and child.length() is larger than 0,
+     *              and label != null and label.length() is larger than 0
+     *
+     * @param parent the parent node
+     * @param child the child node
+     * @param label the edge label
+     * @return true if the graph contains the edge, false otherwise
+     */
+    public boolean containsEdge(String parent, String child, String label) {
+        throw new RuntimeException("not yet implemented");
+    }
+
+    /**
+     * Returns a set view of all the nodes and their children and edge labels in the current directed labeled graph
+     *
+     * @return a set view of all the nodes and their children and edge labels in the current graph
+     */
+    public Set<Map.Entry<String, Set<DirectedLabeledEdge>>> entrySet() {
+        throw new RuntimeException("not yet implemented");
     }
 
     /**
@@ -106,7 +129,7 @@ public class Graph {
      * @return the total number of nodes in the graph
      */
     public int size() {
-        return -1;
+        throw new RuntimeException("not yet implemented");
     }
 
     /**
@@ -115,7 +138,45 @@ public class Graph {
      * @return true if the graph is empty, false otherwise
      */
     public boolean isEmpty() {
-        return false;
+        throw new RuntimeException("not yet implemented");
+    }
+
+    /**
+     * This inner class represents an immutable directed labeled edge in directed labeled graph. A such edge contains the
+     * label of the edge and the node (child) the edge is pointing to.
+     */
+    public static class DirectedLabeledEdge {
+
+        /**
+         * Creates a new directed labeled edge
+         *
+         * @spec.requires child != null and child.length() is larger than 0 and label != null and label.length() is larger than 0
+         * @spec.effects creates a new directed labeled edge
+         *
+         * @param child the node that the edge is pointing to
+         * @param label the label of the edge
+         */
+        public DirectedLabeledEdge(String child, String label) {
+            throw new RuntimeException("not yet implemented");
+        }
+
+        /**
+         * Returns the node that this directed labeled edge is pointing to
+         *
+         * @return the node that this edge is pointing to
+         */
+        public String getChild() {
+            throw new RuntimeException("not yet implemented");
+        }
+
+        /**
+         * Returns the label of this directed labeled edge
+         *
+         * @return the label of this edge
+         */
+        public String getLabel() {
+            throw new RuntimeException("not yet implemented");
+        }
     }
 
 }

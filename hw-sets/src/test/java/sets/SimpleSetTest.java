@@ -1,8 +1,8 @@
 package sets;
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
-import java.util.Arrays;
 
 /**
  * SimpleSetTest is a glassbox test of the SimpleSet class.

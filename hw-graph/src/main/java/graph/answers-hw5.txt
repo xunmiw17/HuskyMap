@@ -14,15 +14,17 @@ give a graph the basic capabilities of adding a node or an edge to it. The "list
 all the current nodes in the graph. The "childrenOf" method lists all the directed labeled edges of a given parent node.
 I included the "isConnected" method to check if there is a path from the given source node to the given destination node
 because it is a common function in a graph to check if two nodes are connected. The "containsNode" method offers convenience
-for both the client and the graph class we defined to check if the graph contains the given node. The "size" and "isEmpty"
-methods are common in collections and our graph class can also be seen as a collection of nodes and edges. Here we only
-check the nodes because edges depend on nodes.
+for both the client and the graph class we defined to check if the graph contains the given node. Similarly, the "containsEdge"
+method check if the graph contains the given edge. The "size" and "isEmpty" methods are common in collections and our graph
+class can also be seen as a collection of nodes and edges. Here we only check the nodes because edges depend on nodes. The
+"entrySet" method provides a view of the current graph, which is also helpful for both the client and the implementer to
+check the current state of the graph.
 
-Also, another class I included is DirectedLabeledEdge.java which represents a directed labeled edge in a graph. The reason
-I added this class is that in a directed labeled graph, we not only want to store the nodes but also the edges, and it is
-the best to group the child node and the label of the edge together as an entirety so that when we get the child/children
-of a node, we are also able to get the associated edge label conveniently. This class is immutable and contains only the
-"getChild" and "getLabel" methods to get the child node and the edge label since this class is used for convenient access.
+Also, an extra inner class I included is DirectedLabeledEdge.java which represents a directed labeled edge in a graph. The
+reason I added this class is that in a directed labeled graph, we not only want to store the nodes but also the edges, and
+it is the best to group the child node and the label of the edge together as an entirety so that when we get the child/children
+of a node, we are also able to get the associated edge label conveniently. This inner class is immutable and contains only
+the "getChild" and "getLabel" methods to get the child node and the edge label since this class is used for convenient access.
 
 
 ## Part 3
@@ -32,4 +34,12 @@ What was your testing strategy for this assignment? How do your script tests and
 differ from each other (if they do), and why?
 
 
-TODO: Your answer here!
+For script tests, I divided the tests into testing three methods overall: addNode, addEdge, and listChildren. For each
+of these methods, I further divide it into several cases. For instance, for the addNode method, I considered the case of
+adding one node, two nodes, multiple nodes, and a node that already exists in the graph. For the addEdge method, I
+considered the case of adding one edge, two edges, multiple edges, multiple edges between the same pair of nodes, edges
+that form a cycle, etc. For listChildren method, I considered the case of listing zero, one, and two children.
+
+My JUnit tests differ from the script tests in that they include testing methods that appear in my Graph class but do
+not appear in test scripts. For example, I included the tests for the size() and isEmpty() methods which cannot be tested
+using the given methods in scripts.

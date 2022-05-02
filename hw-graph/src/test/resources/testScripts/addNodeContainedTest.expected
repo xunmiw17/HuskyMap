@@ -1,0 +1,21 @@
+# Create a graph
+created graph graph1
+
+# Add three nodes
+added node n1 to graph1
+added node n2 to graph1
+added node n3 to graph1
+
+# Add an already existing node
+added node n1 to graph1
+
+# Print the nodes in the graph
+graph1 contains: n1 n2 n3
+
+# Add two already existing nodes, and a new node
+added node n2 to graph1
+added node n3 to graph1
+added node n4 to graph1
+
+# Print the nodes in the graph
+graph1 contains: n1 n2 n3 n4

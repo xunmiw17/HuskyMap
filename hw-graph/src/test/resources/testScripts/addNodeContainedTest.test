@@ -1,0 +1,21 @@
+# Create a graph
+CreateGraph graph1
+
+# Add three nodes
+AddNode graph1 n1
+AddNode graph1 n2
+AddNode graph1 n3
+
+# Add an already existing node
+AddNode graph1 n1
+
+# Print the nodes in the graph
+ListNodes graph1
+
+# Add two already existing nodes, and a new node
+AddNode graph1 n2
+AddNode graph1 n3
+AddNode graph1 n4
+
+# Print the nodes in the graph
+ListNodes graph1
