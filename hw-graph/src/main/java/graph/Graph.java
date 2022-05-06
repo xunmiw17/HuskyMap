@@ -1,7 +1,6 @@
 package graph;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class represents a mutable directed labeled graph composed of nodes and edges. Between a pair of nodes, there
@@ -9,13 +8,25 @@ import java.util.Set;
  */
 public class Graph {
 
+    private static final boolean DEBUG = true;
+
+    // RI: graph != null, and every node in the graph are not empty or null, and every edge in the graph has non-null and
+    //      non-empty child and label, and the graph must contain a node if the node appears in the edge, and size >= 0
+    // AF(this) = a graph with a set of nodes this.graph.keySet(), with each of the node "node" having a set of outgoing
+    //              edges this.graph.get(node) and the total number of nodes this.size
+    private Map<String, Set<DirectedLabeledEdge>> graph;
+
+    private int size;
+
     /**
      * Creates a new empty directed labeled graph
      *
      * @spec.effects creates a new empty directed labeled graph
      */
     public Graph() {
-        throw new RuntimeException("not yet implemented");
+        graph = new HashMap<>();
+        size = 0;
+        checkRep();
     }
 
     /**
@@ -28,7 +39,11 @@ public class Graph {
      * @param node the node to be added to the graph
      */
     public void addNode(String node) {
-        throw new RuntimeException("not yet implemented");
+        if (!graph.containsKey(node)) {
+            graph.put(node, new HashSet<>());
+            size++;
+        }
+        checkRep();
     }
 
     /**
@@ -44,9 +59,13 @@ public class Graph {
      * @param parent the parent node
      * @param child the child node
      * @param label the label on the edge
+     * @throws IllegalArgumentException if the graph does not contain either parent or child node
      */
     public void addEdge(String parent, String child, String label) {
-        throw new RuntimeException("not yet implemented");
+        if (!containsEdge(parent, child, label)) {
+            DirectedLabeledEdge edge = new DirectedLabeledEdge(child, label);
+            graph.get(parent).add(edge);
+        }
     }
 
     /**
@@ -55,7 +74,7 @@ public class Graph {
      * @return a set of all nodes that are currently in this graph
      */
     public Set<String> listNodes() {
-        throw new RuntimeException("not yet implemented");
+        return graph.keySet();
     }
 
     /**
@@ -69,23 +88,26 @@ public class Graph {
      * @throws IllegalArgumentException if the given parent node is not in the graph
      */
     public Set<DirectedLabeledEdge> childrenOf(String parent) {
-        throw new RuntimeException("not yet implemented");
+        if (!containsNode(parent)) {
+            throw new IllegalArgumentException();
+        }
+        return graph.get(parent);
     }
 
-    /**
-     * Returns whether the two given nodes are connected, or there is a path from the given source node to the given
-     * destination node
-     *
-     * @spec.requires src != null and src.length() is larger than 0 and dest != null and dest.length() is larger than 0
-     *
-     * @param src the source node
-     * @param dest the destination node
-     * @return true if there is a path from the source node to the destination node, or they are the same node
-     * @throws IllegalArgumentException if the graph does not contain src or dest node
-     */
-    public boolean isConnected(String src, String dest) {
-        throw new RuntimeException("not yet implemented");
-    }
+    // /**
+    //  * Returns whether the two given nodes are connected, or there is a path from the given source node to the given
+    //  * destination node
+    //  *
+    //  * @spec.requires src != null and src.length() is larger than 0 and dest != null and dest.length() is larger than 0
+    //  *
+    //  * @param src the source node
+    //  * @param dest the destination node
+    //  * @return true if there is a path from the source node to the destination node, or they are the same node
+    //  * @throws IllegalArgumentException if the graph does not contain src or dest node
+    //  */
+    // public boolean isConnected(String src, String dest) {
+    //     throw new RuntimeException("not yet implemented");
+    // }
 
     /**
      * Returns whether the directed labeled graph contains the given node
@@ -96,7 +118,7 @@ public class Graph {
      * @return true if the graph contains the node, false otherwise
      */
     public boolean containsNode(String node) {
-        throw new RuntimeException("not yet implemented");
+        return graph.containsKey(node);
     }
 
     /**
@@ -109,9 +131,19 @@ public class Graph {
      * @param child the child node
      * @param label the edge label
      * @return true if the graph contains the edge, false otherwise
+     * @throws IllegalArgumentException if the graph does not contain either parent or child node
      */
     public boolean containsEdge(String parent, String child, String label) {
-        throw new RuntimeException("not yet implemented");
+        if (!containsNode(parent) || !containsNode(child)) {
+            throw new IllegalArgumentException();
+        }
+        Set<DirectedLabeledEdge> edges = graph.get(parent);
+        for (DirectedLabeledEdge edge : edges) {
+            if (edge.getChild().equals(child) && edge.getLabel().equals(label)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -120,7 +152,7 @@ public class Graph {
      * @return a set view of all the nodes and their children and edge labels in the current graph
      */
     public Set<Map.Entry<String, Set<DirectedLabeledEdge>>> entrySet() {
-        throw new RuntimeException("not yet implemented");
+        return Collections.unmodifiableSet(graph.entrySet());
     }
 
     /**
@@ -129,7 +161,7 @@ public class Graph {
      * @return the total number of nodes in the graph
      */
     public int size() {
-        throw new RuntimeException("not yet implemented");
+        return size;
     }
 
     /**
@@ -138,7 +170,24 @@ public class Graph {
      * @return true if the graph is empty, false otherwise
      */
     public boolean isEmpty() {
-        throw new RuntimeException("not yet implemented");
+        return size == 0;
+    }
+
+    private void checkRep() {
+        if (DEBUG) {
+            assert graph != null;
+            assert size >= 0;
+            for (String node : graph.keySet()) {
+                assert node != null && node != "";
+                for (DirectedLabeledEdge edge : graph.get(node)) {
+                    String child = edge.getChild();
+                    String label = edge.getLabel();
+                    assert child != null && child != "";
+                    assert label != null && label != "";
+                    assert containsNode(child);
+                }
+            }
+        }
     }
 
     /**
@@ -146,6 +195,12 @@ public class Graph {
      * label of the edge and the node (child) the edge is pointing to.
      */
     public static class DirectedLabeledEdge {
+
+        // RI: child is not null and empty, and label is not null and empty
+        // AF(this) = an outgoing edge with the child node this.child and the edge label this.label
+        private String child;
+
+        private String label;
 
         /**
          * Creates a new directed labeled edge
@@ -157,7 +212,8 @@ public class Graph {
          * @param label the label of the edge
          */
         public DirectedLabeledEdge(String child, String label) {
-            throw new RuntimeException("not yet implemented");
+            this.child = child;
+            this.label = label;
         }
 
         /**
@@ -166,7 +222,7 @@ public class Graph {
          * @return the node that this edge is pointing to
          */
         public String getChild() {
-            throw new RuntimeException("not yet implemented");
+            return child;
         }
 
         /**
@@ -175,7 +231,7 @@ public class Graph {
          * @return the label of this edge
          */
         public String getLabel() {
-            throw new RuntimeException("not yet implemented");
+            return label;
         }
     }
 

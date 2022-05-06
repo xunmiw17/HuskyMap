@@ -17,14 +17,28 @@ A few examples of possible Graph representations:
 representations listed above (for example, in terms of runtime complexity, space
 complexity, or ease of implementation).
 
+For the first representation, the space usage is quite efficient because there is no extra space that's wasted, and the
+space complexiy is N+E where N represents the number of nodes and E represents the number of edges. However, when using
+this representation, it is not efficient to find the edges a node has because the nodes in this representation are not
+somehow connected to the edges, meaning that the time complexity to find the outgoing edges of a node is O(E).
 
+For the second representation, it creates "connection" between the nodes and their outgoing edges, which would make it
+efficient to get all the outgoing edges of a node (with runtime complexity O(1)). However, the time complexity to check
+if there exists a given edge can be O(N) when the source node has an outgoing edge with each of the other nodes.
+
+For the third representation, it is very efficient to check if a given edge exists in a graph (with O(1) time complexity).
+However, the space usage can be not so efficient because it requires a matrix of space complexity N^2 no matter how many
+edges there are in the graph in total.
 
 
 2. In two to three sentences, describe the representation you chose and explain why you
 chose it. If you chose to use a different representation than one of the three we described
 above, be sure to list its advantages and disadvantages, too.
 
-
+I chose the adjacency list representation because it is very efficient in accessing the outgoing edges of a given node,
+which should be a common operation in such application where we want to get different paths (edges) of two buildings (nodes)
+and compare which of them has the lowest cost. Besides, the space usage is quite efficient since there are no wasted space
+for this representation.
 
 
 ## Part 4
