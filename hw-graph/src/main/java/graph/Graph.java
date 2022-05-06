@@ -66,6 +66,7 @@ public class Graph {
             DirectedLabeledEdge edge = new DirectedLabeledEdge(child, label);
             graph.get(parent).add(edge);
         }
+        checkRep();
     }
 
     /**
@@ -74,6 +75,7 @@ public class Graph {
      * @return a set of all nodes that are currently in this graph
      */
     public Set<String> listNodes() {
+        checkRep();
         return graph.keySet();
     }
 
@@ -88,6 +90,7 @@ public class Graph {
      * @throws IllegalArgumentException if the given parent node is not in the graph
      */
     public Set<DirectedLabeledEdge> childrenOf(String parent) {
+        checkRep();
         if (!containsNode(parent)) {
             throw new IllegalArgumentException();
         }
@@ -118,6 +121,7 @@ public class Graph {
      * @return true if the graph contains the node, false otherwise
      */
     public boolean containsNode(String node) {
+        checkRep();
         return graph.containsKey(node);
     }
 
@@ -134,6 +138,7 @@ public class Graph {
      * @throws IllegalArgumentException if the graph does not contain either parent or child node
      */
     public boolean containsEdge(String parent, String child, String label) {
+        checkRep();
         if (!containsNode(parent) || !containsNode(child)) {
             throw new IllegalArgumentException();
         }
@@ -152,6 +157,7 @@ public class Graph {
      * @return a set view of all the nodes and their children and edge labels in the current graph
      */
     public Set<Map.Entry<String, Set<DirectedLabeledEdge>>> entrySet() {
+        checkRep();
         return Collections.unmodifiableSet(graph.entrySet());
     }
 
@@ -161,6 +167,7 @@ public class Graph {
      * @return the total number of nodes in the graph
      */
     public int size() {
+        checkRep();
         return size;
     }
 
@@ -170,6 +177,7 @@ public class Graph {
      * @return true if the graph is empty, false otherwise
      */
     public boolean isEmpty() {
+        checkRep();
         return size == 0;
     }
 

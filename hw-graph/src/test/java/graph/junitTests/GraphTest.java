@@ -144,57 +144,137 @@ public class GraphTest {
         assertTrue(graph.containsEdge("n1", "n1", "e1"));
     }
 
-    @Test
-    public void testIsConnected() {
+    @Test(expected = IllegalArgumentException.class)
+    public void testContainsEdgeWithParentNotInGraph() {
         Graph graph = new Graph();
         graph.addNode("n1");
         graph.addNode("n2");
-        graph.addNode("n3");
-        graph.addEdge("n1", "n2", "e1");
-        graph.addEdge("n1", "n3", "e2");
-        graph.addEdge("n3", "n2", "e3");
 
-        assertTrue(graph.isConnected("n1", "n2"));
-        assertTrue(graph.isConnected("n1", "n3"));
-        assertTrue(graph.isConnected("n3", "n2"));
-        assertFalse(graph.isConnected("n2", "n3"));
-        assertFalse(graph.isConnected("n2", "n1"));
-        assertFalse(graph.isConnected("n3", "n1"));
-    }
-
-    @Test
-    public void testIsConnectedSameNode() {
-        Graph graph = new Graph();
-        graph.addNode("n1");
-
-        assertTrue(graph.isConnected("n1", "n1"));
+        graph.containsEdge("n3", "n1", "e1");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testIsConnectedForNotExistingSourceNode() {
+    public void testContainsEdgeWithChildNotInGraph() {
         Graph graph = new Graph();
         graph.addNode("n1");
         graph.addNode("n2");
-        graph.addNode("n3");
-        graph.addEdge("n1", "n2", "e1");
-        graph.addEdge("n1", "n3", "e2");
-        graph.addEdge("n3", "n2", "e3");
 
-        graph.isConnected("n4", "n1");
+        graph.containsEdge("n1", "n3", "e1");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testIsConnectedForNotExistingDestNode() {
+    public void testAddEdgeWithParentNotInGraph() {
         Graph graph = new Graph();
         graph.addNode("n1");
         graph.addNode("n2");
-        graph.addNode("n3");
-        graph.addEdge("n1", "n2", "e1");
-        graph.addEdge("n1", "n3", "e2");
-        graph.addEdge("n3", "n2", "e3");
 
-        graph.isConnected("n1", "n4");
+        graph.addEdge("n3", "n1", "e1");
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddEdgeWithChildNotInGraph() {
+        Graph graph = new Graph();
+        graph.addNode("n1");
+        graph.addNode("n2");
+
+        graph.addEdge("n1", "n3", "e1");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testChildrenOfParentNotInGraph() {
+        Graph graph = new Graph();
+        graph.addNode("n1");
+        graph.addNode("n2");
+
+        graph.childrenOf("n3");
+    }
+
+    @Test
+    public void testHugeGraph() {
+        Graph graph = new Graph();
+        for (int i = 1; i <= 10000; i++) {
+            graph.addNode("n" + i);
+        }
+        for (int i = 1; i < 10000; i++) {
+            int next = i + 1;
+            graph.addEdge("n" + i, "n" + next, "en" + i);
+        }
+        for (int i = 1; i <= 5000; i++) {
+            int next = i * 2;
+            graph.addEdge("n" + i, "n" + next, "en2" + i);
+        }
+        assertEquals(10000, graph.size());
+        for (int i = 0; i < 10000; i++) {
+            assertTrue(graph.containsNode("n" + i));
+        }
+        assertEquals(1, graph.childrenOf("n1").size());
+        assertFalse(graph.containsEdge("n1", "n2", "en21"));
+        for (int i = 2; i <= 5000; i++) {
+            assertEquals(2, graph.childrenOf("n" + i).size());
+        }
+        for (int i = 1; i < 10000; i++) {
+            int next = i + 1;
+            assertTrue(graph.containsEdge("n" + i, "n" + next, "en" + i));
+            assertFalse(graph.containsEdge("n" + next, "n" + i, "en" + i));
+        }
+        for (int i = 2; i <= 5000; i++) {
+            int next = i * 2;
+            assertTrue(graph.containsEdge("n" + i, "n" + next, "en2" + i));
+            assertFalse(graph.containsEdge("n" + next, "n" + i, "en2" + i));
+        }
+    }
+
+    // @Test
+    // public void testIsConnected() {
+    //     Graph graph = new Graph();
+    //     graph.addNode("n1");
+    //     graph.addNode("n2");
+    //     graph.addNode("n3");
+    //     graph.addEdge("n1", "n2", "e1");
+    //     graph.addEdge("n1", "n3", "e2");
+    //     graph.addEdge("n3", "n2", "e3");
+    //
+    //     assertTrue(graph.isConnected("n1", "n2"));
+    //     assertTrue(graph.isConnected("n1", "n3"));
+    //     assertTrue(graph.isConnected("n3", "n2"));
+    //     assertFalse(graph.isConnected("n2", "n3"));
+    //     assertFalse(graph.isConnected("n2", "n1"));
+    //     assertFalse(graph.isConnected("n3", "n1"));
+    // }
+
+    // @Test
+    // public void testIsConnectedSameNode() {
+    //     Graph graph = new Graph();
+    //     graph.addNode("n1");
+    //
+    //     assertTrue(graph.isConnected("n1", "n1"));
+    // }
+
+    // @Test(expected = IllegalArgumentException.class)
+    // public void testIsConnectedForNotExistingSourceNode() {
+    //     Graph graph = new Graph();
+    //     graph.addNode("n1");
+    //     graph.addNode("n2");
+    //     graph.addNode("n3");
+    //     graph.addEdge("n1", "n2", "e1");
+    //     graph.addEdge("n1", "n3", "e2");
+    //     graph.addEdge("n3", "n2", "e3");
+    //
+    //     graph.isConnected("n4", "n1");
+    // }
+
+    // @Test(expected = IllegalArgumentException.class)
+    // public void testIsConnectedForNotExistingDestNode() {
+    //     Graph graph = new Graph();
+    //     graph.addNode("n1");
+    //     graph.addNode("n2");
+    //     graph.addNode("n3");
+    //     graph.addEdge("n1", "n2", "e1");
+    //     graph.addEdge("n1", "n3", "e2");
+    //     graph.addEdge("n3", "n2", "e3");
+    //
+    //     graph.isConnected("n1", "n4");
+    // }
 
     @Test
     public void testDirectedLabeledEdge() {

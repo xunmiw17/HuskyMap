@@ -18,7 +18,7 @@ representations listed above (for example, in terms of runtime complexity, space
 complexity, or ease of implementation).
 
 For the first representation, the space usage is quite efficient because there is no extra space that's wasted, and the
-space complexiy is N+E where N represents the number of nodes and E represents the number of edges. However, when using
+space complexity is N+E where N represents the number of nodes and E represents the number of edges. However, when using
 this representation, it is not efficient to find the edges a node has because the nodes in this representation are not
 somehow connected to the edges, meaning that the time complexity to find the outgoing edges of a node is O(E).
 
@@ -49,11 +49,32 @@ for this representation.
 1. Describe any new tests you added and why you added them, or why you feel that your original
 tests alone are sufficient.
 
+- I added a test to check if the "childrenOf" method throws an exception if the parent node is not in the graph, which I
+    forgot to include when I first wrote the test.
+- I added tests to check if the "containsEdge" method throws an exception if either the parent/child node is not in the
+    graph. I added this test because I've changed the spec to throw an exception.
+- I added tests to check if the "addEdge" method throws an exception if either the parent/child node is not in the graph.
+    I added this test because I've changed the spec to throw an exception.
+- I added a test to check if the graph works correctly with a large amount of nodes and edges. I added this test because
+    the path-finding application is going to deal with a huge graph, and I am going to prepare for such case.
+- Additionally, I deleted the tests for "isConnected" method because I deleted that method from my graph implementation
+    since it is not so easy to implement, and I am not sure if this method will actually be useful in the application,
+    so I chose to delay the declaration and implementation of this method.
+
 
 
 
 2. Did you make any changes to your specifications as you were implementing your Graph? (yes/no)
 If yes, describe your changes and why you made them.
+
+yes.
+I changed two parts of the spec. The first one is that I added a @throws javadoc comment in my "containsEdge" method
+when either the parent/child node is not in the graph because I didn't address such cases in @spec.requires, and it
+can produce horrible results like the "containsEdge" returns false because the node at first is not in the graph, which
+can cause other methods that call "containsEdge" to crash.
+
+The second one is that I also added a @throws javadoc comment in my "addEdge" method because this method calls the
+"containsEdge" method inside, which now throws an exception when the parent/child node is not in the graph.
 
 
 
