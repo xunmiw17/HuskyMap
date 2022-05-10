@@ -2,6 +2,8 @@ package graph.junitTests;
 
 import graph.Graph;
 import org.junit.Test;
+import org.junit.Rule;
+import org.junit.rules.Timeout;
 
 import java.util.Set;
 
@@ -11,6 +13,8 @@ import static org.junit.Assert.*;
  * GraphTest is a test of the Graph class
  */
 public class GraphTest {
+
+    @Rule public Timeout globalTimeout = Timeout.seconds(10); // 10 seconds max per method tested
 
     private static Graph graph = new Graph();
 
@@ -97,7 +101,7 @@ public class GraphTest {
         assertFalse(graph.containsNode("n4"));
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testContainsEdgeWithEmptyGraph() {
         Graph graph = new Graph();
 
@@ -204,11 +208,9 @@ public class GraphTest {
             graph.addEdge("n" + i, "n" + next, "en2" + i);
         }
         assertEquals(10000, graph.size());
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 1; i <= 10000; i++) {
             assertTrue(graph.containsNode("n" + i));
         }
-        assertEquals(1, graph.childrenOf("n1").size());
-        assertFalse(graph.containsEdge("n1", "n2", "en21"));
         for (int i = 2; i <= 5000; i++) {
             assertEquals(2, graph.childrenOf("n" + i).size());
         }
@@ -223,58 +225,6 @@ public class GraphTest {
             assertFalse(graph.containsEdge("n" + next, "n" + i, "en2" + i));
         }
     }
-
-    // @Test
-    // public void testIsConnected() {
-    //     Graph graph = new Graph();
-    //     graph.addNode("n1");
-    //     graph.addNode("n2");
-    //     graph.addNode("n3");
-    //     graph.addEdge("n1", "n2", "e1");
-    //     graph.addEdge("n1", "n3", "e2");
-    //     graph.addEdge("n3", "n2", "e3");
-    //
-    //     assertTrue(graph.isConnected("n1", "n2"));
-    //     assertTrue(graph.isConnected("n1", "n3"));
-    //     assertTrue(graph.isConnected("n3", "n2"));
-    //     assertFalse(graph.isConnected("n2", "n3"));
-    //     assertFalse(graph.isConnected("n2", "n1"));
-    //     assertFalse(graph.isConnected("n3", "n1"));
-    // }
-
-    // @Test
-    // public void testIsConnectedSameNode() {
-    //     Graph graph = new Graph();
-    //     graph.addNode("n1");
-    //
-    //     assertTrue(graph.isConnected("n1", "n1"));
-    // }
-
-    // @Test(expected = IllegalArgumentException.class)
-    // public void testIsConnectedForNotExistingSourceNode() {
-    //     Graph graph = new Graph();
-    //     graph.addNode("n1");
-    //     graph.addNode("n2");
-    //     graph.addNode("n3");
-    //     graph.addEdge("n1", "n2", "e1");
-    //     graph.addEdge("n1", "n3", "e2");
-    //     graph.addEdge("n3", "n2", "e3");
-    //
-    //     graph.isConnected("n4", "n1");
-    // }
-
-    // @Test(expected = IllegalArgumentException.class)
-    // public void testIsConnectedForNotExistingDestNode() {
-    //     Graph graph = new Graph();
-    //     graph.addNode("n1");
-    //     graph.addNode("n2");
-    //     graph.addNode("n3");
-    //     graph.addEdge("n1", "n2", "e1");
-    //     graph.addEdge("n1", "n3", "e2");
-    //     graph.addEdge("n3", "n2", "e3");
-    //
-    //     graph.isConnected("n1", "n4");
-    // }
 
     @Test
     public void testDirectedLabeledEdge() {
@@ -298,4 +248,40 @@ public class GraphTest {
         }
     }
 
+    @Test
+    public void testEdgeEquals() {
+        Graph.DirectedLabeledEdge e1 = new Graph.DirectedLabeledEdge("n1", "e1");
+        Graph.DirectedLabeledEdge e2 = new Graph.DirectedLabeledEdge("n1", "e1");
+        Graph.DirectedLabeledEdge e3 = new Graph.DirectedLabeledEdge("n1", "e2");
+        Graph.DirectedLabeledEdge e4 = new Graph.DirectedLabeledEdge("n2", "e1");
+        Object o1 = new Object();
+
+        assertTrue(e1.equals(e2));
+        assertTrue(e2.equals(e1));
+        assertTrue(e1.equals(e1));
+        assertFalse(e1.equals(e3));
+        assertFalse(e2.equals(e4));
+        assertFalse(e1.equals(o1));
+        assertFalse(e1.equals(null));
+    }
+
+    @Test
+    public void testEdgeHashCode() {
+        Graph.DirectedLabeledEdge e1 = new Graph.DirectedLabeledEdge("n1", "e1");
+        Graph.DirectedLabeledEdge e2 = new Graph.DirectedLabeledEdge("n1", "e1");
+
+        Graph.DirectedLabeledEdge e3 = new Graph.DirectedLabeledEdge("n50", "e50");
+        Graph.DirectedLabeledEdge e4 = new Graph.DirectedLabeledEdge("n50", "e50");
+
+        Graph.DirectedLabeledEdge e5 = new Graph.DirectedLabeledEdge("n4", "e4");
+        Graph.DirectedLabeledEdge e6 = new Graph.DirectedLabeledEdge("n4", "e4");
+
+        Graph.DirectedLabeledEdge e7 = new Graph.DirectedLabeledEdge("FrankWuNode", "FrankWuEdge");
+        Graph.DirectedLabeledEdge e8 = new Graph.DirectedLabeledEdge("FrankWuNode", "FrankWuEdge");
+
+        assertTrue(e1.hashCode() == e2.hashCode());
+        assertTrue(e3.hashCode() == e4.hashCode());
+        assertTrue(e5.hashCode() == e6.hashCode());
+        assertTrue(e7.hashCode() == e8.hashCode());
+    }
 }

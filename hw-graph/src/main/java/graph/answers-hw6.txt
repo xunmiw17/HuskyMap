@@ -57,6 +57,9 @@ tests alone are sufficient.
     I added this test because I've changed the spec to throw an exception.
 - I added a test to check if the graph works correctly with a large amount of nodes and edges. I added this test because
     the path-finding application is going to deal with a huge graph, and I am going to prepare for such case.
+- I added two tests that check the equals and hashCode methods of the inner class DirectedLabeledEdge. I added these two
+    tests because I added the equals and hashCode methods in the DirectedLabeledEdge because it is much easier to
+    compare the equality of two edges with equals method and it is a frequent operation.
 - Additionally, I deleted the tests for "isConnected" method because I deleted that method from my graph implementation
     since it is not so easy to implement, and I am not sure if this method will actually be useful in the application,
     so I chose to delay the declaration and implementation of this method.

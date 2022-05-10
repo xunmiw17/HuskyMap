@@ -8,7 +8,7 @@ import java.util.*;
  */
 public class Graph {
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     // RI: graph != null, and every node in the graph are not empty or null, and every edge in the graph has non-null and
     //      non-empty child and label, and the graph must contain a node if the node appears in the edge, and size >= 0
@@ -97,21 +97,6 @@ public class Graph {
         return graph.get(parent);
     }
 
-    // /**
-    //  * Returns whether the two given nodes are connected, or there is a path from the given source node to the given
-    //  * destination node
-    //  *
-    //  * @spec.requires src != null and src.length() is larger than 0 and dest != null and dest.length() is larger than 0
-    //  *
-    //  * @param src the source node
-    //  * @param dest the destination node
-    //  * @return true if there is a path from the source node to the destination node, or they are the same node
-    //  * @throws IllegalArgumentException if the graph does not contain src or dest node
-    //  */
-    // public boolean isConnected(String src, String dest) {
-    //     throw new RuntimeException("not yet implemented");
-    // }
-
     /**
      * Returns whether the directed labeled graph contains the given node
      *
@@ -143,8 +128,9 @@ public class Graph {
             throw new IllegalArgumentException();
         }
         Set<DirectedLabeledEdge> edges = graph.get(parent);
+        DirectedLabeledEdge newEdge = new DirectedLabeledEdge(child, label);
         for (DirectedLabeledEdge edge : edges) {
-            if (edge.getChild().equals(child) && edge.getLabel().equals(label)) {
+            if (newEdge.equals(edge)) {
                 return true;
             }
         }
@@ -182,9 +168,9 @@ public class Graph {
     }
 
     private void checkRep() {
+        assert graph != null;
+        assert size >= 0;
         if (DEBUG) {
-            assert graph != null;
-            assert size >= 0;
             for (String node : graph.keySet()) {
                 assert node != null && node != "";
                 for (DirectedLabeledEdge edge : graph.get(node)) {
@@ -192,7 +178,7 @@ public class Graph {
                     String label = edge.getLabel();
                     assert child != null && child != "";
                     assert label != null && label != "";
-                    assert containsNode(child);
+                    assert graph.containsKey(child);
                 }
             }
         }
@@ -230,6 +216,7 @@ public class Graph {
          * @return the node that this edge is pointing to
          */
         public String getChild() {
+            checkRep();
             return child;
         }
 
@@ -239,8 +226,42 @@ public class Graph {
          * @return the label of this edge
          */
         public String getLabel() {
+            checkRep();
             return label;
         }
-    }
 
+        /**
+         * Returns whether the two DirectedLabeledEdge's are equal
+         *
+         * @param obj the object to compare equality
+         * @return true if two DirectedLabeledEdge's are equal, false otherwise
+         */
+        @Override
+        public boolean equals(Object obj) {
+            checkRep();
+            if (!(obj instanceof DirectedLabeledEdge)) {
+                return false;
+            }
+            DirectedLabeledEdge other = (DirectedLabeledEdge) obj;
+            return this.child.equals(other.child) && this.label.equals(other.label);
+        }
+
+        /**
+         * Returns the hashcode of this DirectedLabeledEdge
+         *
+         * @return the hashcode of this
+         */
+        @Override
+        public int hashCode() {
+            checkRep();
+            return this.child.hashCode() + this.label.hashCode();
+        }
+
+        private void checkRep() {
+            if (DEBUG) {
+                assert child != null && child != "";
+                assert label != null && label != "";
+            }
+        }
+    }
 }
