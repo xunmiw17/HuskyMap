@@ -6,7 +6,7 @@ import java.util.*;
  * This class represents a mutable directed labeled graph composed of nodes and edges. Between a pair of nodes, there
  * could be zero, one, or multiple labeled edges. Besides, no two nodes share the same data.
  */
-public class Graph<T extends Comparable<T>, E extends Comparable<E>> {
+public class Graph<T, E> {
 
     private static final boolean DEBUG = false;
 
@@ -186,7 +186,7 @@ public class Graph<T extends Comparable<T>, E extends Comparable<E>> {
      * This inner class represents an immutable directed labeled edge in directed labeled graph. A such edge contains the
      * label of the edge and the node (child) the edge is pointing to.
      */
-    public static class DirectedLabeledEdge<T extends Comparable<T>, E extends Comparable<E>> {
+    public static class DirectedLabeledEdge<T, E> {
 
         // RI: child is not null and label is not null
         // AF(this) = an outgoing edge with the child node this.child and the edge label this.label
