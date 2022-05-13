@@ -6,15 +6,15 @@ import java.util.*;
  * This class represents a mutable directed labeled graph composed of nodes and edges. Between a pair of nodes, there
  * could be zero, one, or multiple labeled edges. Besides, no two nodes share the same data.
  */
-public class Graph {
+public class Graph<T extends Comparable<T>, E extends Comparable<E>> {
 
     private static final boolean DEBUG = false;
 
-    // RI: graph != null, and every node in the graph are not empty or null, and every edge in the graph has non-null and
-    //      non-empty child and label, and the graph must contain a node if the node appears in the edge, and size >= 0
+    // RI: graph != null, and every node in the graph are not null, and every edge in the graph has non-null child
+    //      and label, and the graph must contain a node if the node appears in the edge, and size >= 0
     // AF(this) = a graph with a set of nodes this.graph.keySet(), with each of the node "node" having a set of outgoing
     //              edges this.graph.get(node) and the total number of nodes this.size
-    private Map<String, Set<DirectedLabeledEdge>> graph;
+    private Map<T, Set<DirectedLabeledEdge<T, E>>> graph;
 
     private int size;
 
@@ -32,13 +32,13 @@ public class Graph {
     /**
      * Adds a new node to the directed labeled graph if the node is not already present in the graph
      *
-     * @spec.requires node != null and node.length() is larger than 0
+     * @spec.requires node != null
      * @spec.modifies this
      * @spec.effects adds a new node to the graph if it is not already in the graph, otherwise there is no effects.
      *
      * @param node the node to be added to the graph
      */
-    public void addNode(String node) {
+    public void addNode(T node) {
         if (!graph.containsKey(node)) {
             graph.put(node, new HashSet<>());
             size++;
@@ -50,8 +50,7 @@ public class Graph {
      * Adds a new directed edge to the directed labeled graph from the given parent node to the given child node with
      * the given label.
      *
-     * @spec.requires parent != null and parent.length() is larger than 0 and child != null and child.length() is larger
-     *                  than 0 and label != null and label.length() is larger than 0
+     * @spec.requires parent != null and child != null and label != null
      * @spec.modifies this
      * @spec.effects adds a directed edge from the parent node to the child node with the given label if the graph does
      *              not already contain the edge, otherwise there is no effects.
@@ -61,9 +60,9 @@ public class Graph {
      * @param label the label on the edge
      * @throws IllegalArgumentException if the graph does not contain either parent or child node
      */
-    public void addEdge(String parent, String child, String label) {
+    public void addEdge(T parent, T child, E label) {
         if (!containsEdge(parent, child, label)) {
-            DirectedLabeledEdge edge = new DirectedLabeledEdge(child, label);
+            DirectedLabeledEdge<T, E> edge = new DirectedLabeledEdge<T, E>(child, label);
             graph.get(parent).add(edge);
         }
         checkRep();
@@ -74,7 +73,7 @@ public class Graph {
      *
      * @return a set of all nodes that are currently in this graph
      */
-    public Set<String> listNodes() {
+    public Set<T> listNodes() {
         checkRep();
         return graph.keySet();
     }
@@ -83,13 +82,13 @@ public class Graph {
      * Returns all the directed labeled edges of a given parent node in the directed labeled graph, each edge containing
      * information of the label of the edge and the child node
      *
-     * @spec.requires parent != null and parent.length() is larger than 0
+     * @spec.requires parent != null
      *
      * @param parent the parent node
      * @return a set of directed labeled edges, each containing the label of the edge and the child node
      * @throws IllegalArgumentException if the given parent node is not in the graph
      */
-    public Set<DirectedLabeledEdge> childrenOf(String parent) {
+    public Set<DirectedLabeledEdge<T, E>> childrenOf(T parent) {
         checkRep();
         if (!containsNode(parent)) {
             throw new IllegalArgumentException();
@@ -100,12 +99,12 @@ public class Graph {
     /**
      * Returns whether the directed labeled graph contains the given node
      *
-     * @spec.requires node != null and node.length() is larger than 0
+     * @spec.requires node != null
      *
      * @param node the node to be checked if it is in the graph
      * @return true if the graph contains the node, false otherwise
      */
-    public boolean containsNode(String node) {
+    public boolean containsNode(T node) {
         checkRep();
         return graph.containsKey(node);
     }
@@ -113,8 +112,7 @@ public class Graph {
     /**
      * Returns whether the directed labeled graph contains the given edge
      *
-     * @spec.requires parent != null and parent.length() is larger than 0, child != null and child.length() is larger than 0,
-     *              and label != null and label.length() is larger than 0
+     * @spec.requires parent != null, child != null, and label != null
      *
      * @param parent the parent node
      * @param child the child node
@@ -122,14 +120,14 @@ public class Graph {
      * @return true if the graph contains the edge, false otherwise
      * @throws IllegalArgumentException if the graph does not contain either parent or child node
      */
-    public boolean containsEdge(String parent, String child, String label) {
+    public boolean containsEdge(T parent, T child, E label) {
         checkRep();
         if (!containsNode(parent) || !containsNode(child)) {
             throw new IllegalArgumentException();
         }
-        Set<DirectedLabeledEdge> edges = graph.get(parent);
-        DirectedLabeledEdge newEdge = new DirectedLabeledEdge(child, label);
-        for (DirectedLabeledEdge edge : edges) {
+        Set<DirectedLabeledEdge<T, E>> edges = graph.get(parent);
+        DirectedLabeledEdge<T, E> newEdge = new DirectedLabeledEdge<T, E>(child, label);
+        for (DirectedLabeledEdge<T, E> edge : edges) {
             if (newEdge.equals(edge)) {
                 return true;
             }
@@ -142,7 +140,7 @@ public class Graph {
      *
      * @return a set view of all the nodes and their children and edge labels in the current graph
      */
-    public Set<Map.Entry<String, Set<DirectedLabeledEdge>>> entrySet() {
+    public Set<Map.Entry<T, Set<DirectedLabeledEdge<T, E>>>> entrySet() {
         checkRep();
         return Collections.unmodifiableSet(graph.entrySet());
     }
@@ -171,13 +169,13 @@ public class Graph {
         assert graph != null;
         assert size >= 0;
         if (DEBUG) {
-            for (String node : graph.keySet()) {
-                assert node != null && node != "";
-                for (DirectedLabeledEdge edge : graph.get(node)) {
-                    String child = edge.getChild();
-                    String label = edge.getLabel();
-                    assert child != null && child != "";
-                    assert label != null && label != "";
+            for (T node : graph.keySet()) {
+                assert node != null;
+                for (DirectedLabeledEdge<T, E> edge : graph.get(node)) {
+                    T child = edge.getChild();
+                    E label = edge.getLabel();
+                    assert child != null;
+                    assert label != null;
                     assert graph.containsKey(child);
                 }
             }
@@ -188,24 +186,24 @@ public class Graph {
      * This inner class represents an immutable directed labeled edge in directed labeled graph. A such edge contains the
      * label of the edge and the node (child) the edge is pointing to.
      */
-    public static class DirectedLabeledEdge {
+    public static class DirectedLabeledEdge<T extends Comparable<T>, E extends Comparable<E>> {
 
-        // RI: child is not null and empty, and label is not null and empty
+        // RI: child is not null and label is not null
         // AF(this) = an outgoing edge with the child node this.child and the edge label this.label
-        private String child;
+        private T child;
 
-        private String label;
+        private E label;
 
         /**
          * Creates a new directed labeled edge
          *
-         * @spec.requires child != null and child.length() is larger than 0 and label != null and label.length() is larger than 0
+         * @spec.requires child != null and label != null
          * @spec.effects creates a new directed labeled edge
          *
          * @param child the node that the edge is pointing to
          * @param label the label of the edge
          */
-        public DirectedLabeledEdge(String child, String label) {
+        public DirectedLabeledEdge(T child, E label) {
             this.child = child;
             this.label = label;
         }
@@ -215,7 +213,7 @@ public class Graph {
          *
          * @return the node that this edge is pointing to
          */
-        public String getChild() {
+        public T getChild() {
             checkRep();
             return child;
         }
@@ -225,7 +223,7 @@ public class Graph {
          *
          * @return the label of this edge
          */
-        public String getLabel() {
+        public E getLabel() {
             checkRep();
             return label;
         }
@@ -239,10 +237,10 @@ public class Graph {
         @Override
         public boolean equals(Object obj) {
             checkRep();
-            if (!(obj instanceof DirectedLabeledEdge)) {
+            if (!(obj instanceof DirectedLabeledEdge<?, ?>)) {
                 return false;
             }
-            DirectedLabeledEdge other = (DirectedLabeledEdge) obj;
+            DirectedLabeledEdge<?, ?> other = (DirectedLabeledEdge<?, ?>) obj;
             return this.child.equals(other.child) && this.label.equals(other.label);
         }
 
@@ -259,8 +257,8 @@ public class Graph {
 
         private void checkRep() {
             if (DEBUG) {
-                assert child != null && child != "";
-                assert label != null && label != "";
+                assert child != null;
+                assert label != null;
             }
         }
     }

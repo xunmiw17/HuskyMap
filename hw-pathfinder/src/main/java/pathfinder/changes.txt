@@ -1,2 +1,7 @@
 Briefly list any changes you made to your graph class during hw-pathfinder, and why you made those changes.
 
+- I changed the @spec.requires of some methods as they previously only apply to type String, like checking the String
+    is not empty.
+
+
+

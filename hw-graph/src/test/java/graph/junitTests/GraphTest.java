@@ -16,18 +16,18 @@ public class GraphTest {
 
     @Rule public Timeout globalTimeout = Timeout.seconds(10); // 10 seconds max per method tested
 
-    private static Graph graph = new Graph();
+    private static Graph<String, String> graph = new Graph<String, String>();
 
     @Test
     public void testSizeWithEmptyGraph() {
-        Graph graph = new Graph();
+        Graph<String, String> graph = new Graph<String, String>();
 
         assertEquals(graph.size(), 0);
     }
 
     @Test
     public void testSizeWithOneNode() {
-        Graph graph = new Graph();
+        Graph<String, String> graph = new Graph<String, String>();
         graph.addNode("n1");
 
         assertEquals(graph.size(), 1);
@@ -35,7 +35,7 @@ public class GraphTest {
 
     @Test
     public void testSizeWithMultipleNodes() {
-        Graph graph = new Graph();
+        Graph<String, String> graph = new Graph<String, String>();
         graph.addNode("n1");
         graph.addNode("n2");
         graph.addNode("n3");
@@ -46,14 +46,14 @@ public class GraphTest {
 
     @Test
     public void testIsEmptyWithEmptyGraph() {
-        Graph graph = new Graph();
+        Graph<String, String> graph = new Graph<String, String>();
 
         assertTrue(graph.isEmpty());
     }
 
     @Test
     public void testIsEmptyWithOneNode() {
-        Graph graph = new Graph();
+        Graph<String, String> graph = new Graph<String, String>();
         graph.addNode("n1");
 
         assertFalse(graph.isEmpty());
@@ -61,7 +61,7 @@ public class GraphTest {
 
     @Test
     public void testIsEmptyWithMultipleNodes() {
-        Graph graph = new Graph();
+        Graph<String, String> graph = new Graph<String, String>();
         graph.addNode("n1");
         graph.addNode("n2");
         graph.addNode("n3");
@@ -71,14 +71,14 @@ public class GraphTest {
 
     @Test
     public void testContainsNodeWithEmptyGraph() {
-        Graph graph = new Graph();
+        Graph<String, String> graph = new Graph<String, String>();
 
         assertFalse(graph.containsNode("n1"));
     }
 
     @Test
     public void testContainsNodeWithOneNode() {
-        Graph graph = new Graph();
+        Graph<String, String> graph = new Graph<String, String>();
         graph.addNode("n1");
 
         assertTrue(graph.containsNode("n1"));
@@ -87,7 +87,7 @@ public class GraphTest {
 
     @Test
     public void testContainsNodeWithMultipleNodesAndEdges() {
-        Graph graph = new Graph();
+        Graph<String, String> graph = new Graph<String, String>();
         graph.addNode("n1");
         graph.addNode("n2");
         graph.addNode("n3");
@@ -103,14 +103,14 @@ public class GraphTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testContainsEdgeWithEmptyGraph() {
-        Graph graph = new Graph();
+        Graph<String, String> graph = new Graph<String, String>();
 
         assertFalse(graph.containsEdge("n1", "n2", "e1"));
     }
 
     @Test
     public void testContainsEdgeWithOneEdge() {
-        Graph graph = new Graph();
+        Graph<String, String> graph = new Graph<String, String>();
         graph.addNode("n1");
         graph.addNode("n2");
         graph.addEdge("n1", "n2", "e1");
@@ -122,7 +122,7 @@ public class GraphTest {
 
     @Test
     public void testContainsEdgeWithMultipleEdges() {
-        Graph graph = new Graph();
+        Graph<String, String> graph = new Graph<String, String>();
         graph.addNode("n1");
         graph.addNode("n2");
         graph.addNode("n3");
@@ -140,7 +140,7 @@ public class GraphTest {
 
     @Test
     public void testContainsSelfEdge() {
-        Graph graph = new Graph();
+        Graph<String, String> graph = new Graph<String, String>();
         graph.addNode("n1");
         graph.addNode("n2");
         graph.addEdge("n1", "n1", "e1");
@@ -150,7 +150,7 @@ public class GraphTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testContainsEdgeWithParentNotInGraph() {
-        Graph graph = new Graph();
+        Graph<String, String> graph = new Graph<String, String>();
         graph.addNode("n1");
         graph.addNode("n2");
 
@@ -159,7 +159,7 @@ public class GraphTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testContainsEdgeWithChildNotInGraph() {
-        Graph graph = new Graph();
+        Graph<String, String> graph = new Graph<String, String>();
         graph.addNode("n1");
         graph.addNode("n2");
 
@@ -168,7 +168,7 @@ public class GraphTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testAddEdgeWithParentNotInGraph() {
-        Graph graph = new Graph();
+        Graph<String, String> graph = new Graph<String, String>();
         graph.addNode("n1");
         graph.addNode("n2");
 
@@ -177,7 +177,7 @@ public class GraphTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testAddEdgeWithChildNotInGraph() {
-        Graph graph = new Graph();
+        Graph<String, String> graph = new Graph<String, String>();
         graph.addNode("n1");
         graph.addNode("n2");
 
@@ -186,7 +186,7 @@ public class GraphTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testChildrenOfParentNotInGraph() {
-        Graph graph = new Graph();
+        Graph<String, String> graph = new Graph<String, String>();
         graph.addNode("n1");
         graph.addNode("n2");
 
@@ -195,7 +195,7 @@ public class GraphTest {
 
     @Test
     public void testHugeGraph() {
-        Graph graph = new Graph();
+        Graph<String, String> graph = new Graph<String, String>();
         for (int i = 1; i <= 10000; i++) {
             graph.addNode("n" + i);
         }
@@ -228,21 +228,21 @@ public class GraphTest {
 
     @Test
     public void testDirectedLabeledEdge() {
-        Graph graph = new Graph();
+        Graph<String, String> graph = new Graph<String, String>();
         graph.addNode("n1");
         graph.addNode("n2");
         graph.addNode("n3");
         graph.addEdge("n1", "n2", "e1");
         graph.addEdge("n2", "n3", "e2");
 
-        Set<Graph.DirectedLabeledEdge> childrenOfN1 = graph.childrenOf("n1");
-        for (Graph.DirectedLabeledEdge edge : childrenOfN1) {
+        Set<Graph.DirectedLabeledEdge<String, String>> childrenOfN1 = graph.childrenOf("n1");
+        for (Graph.DirectedLabeledEdge<String, String> edge : childrenOfN1) {
             assertEquals("n2" ,edge.getChild());
             assertEquals("e1" ,edge.getLabel());
         }
 
-        Set<Graph.DirectedLabeledEdge> childrenOfN2 = graph.childrenOf("n2");
-        for (Graph.DirectedLabeledEdge edge : childrenOfN2) {
+        Set<Graph.DirectedLabeledEdge<String, String>> childrenOfN2 = graph.childrenOf("n2");
+        for (Graph.DirectedLabeledEdge<String, String> edge : childrenOfN2) {
             assertEquals("n3" ,edge.getChild());
             assertEquals("e2" ,edge.getLabel());
         }
@@ -250,10 +250,10 @@ public class GraphTest {
 
     @Test
     public void testEdgeEquals() {
-        Graph.DirectedLabeledEdge e1 = new Graph.DirectedLabeledEdge("n1", "e1");
-        Graph.DirectedLabeledEdge e2 = new Graph.DirectedLabeledEdge("n1", "e1");
-        Graph.DirectedLabeledEdge e3 = new Graph.DirectedLabeledEdge("n1", "e2");
-        Graph.DirectedLabeledEdge e4 = new Graph.DirectedLabeledEdge("n2", "e1");
+        Graph.DirectedLabeledEdge<String, String> e1 = new Graph.DirectedLabeledEdge<String, String>("n1", "e1");
+        Graph.DirectedLabeledEdge<String, String> e2 = new Graph.DirectedLabeledEdge<String, String>("n1", "e1");
+        Graph.DirectedLabeledEdge<String, String> e3 = new Graph.DirectedLabeledEdge<String, String>("n1", "e2");
+        Graph.DirectedLabeledEdge<String, String> e4 = new Graph.DirectedLabeledEdge<String, String>("n2", "e1");
         Object o1 = new Object();
 
         assertTrue(e1.equals(e2));
@@ -267,17 +267,17 @@ public class GraphTest {
 
     @Test
     public void testEdgeHashCode() {
-        Graph.DirectedLabeledEdge e1 = new Graph.DirectedLabeledEdge("n1", "e1");
-        Graph.DirectedLabeledEdge e2 = new Graph.DirectedLabeledEdge("n1", "e1");
+        Graph.DirectedLabeledEdge<String, String> e1 = new Graph.DirectedLabeledEdge<String, String>("n1", "e1");
+        Graph.DirectedLabeledEdge<String, String> e2 = new Graph.DirectedLabeledEdge<String, String>("n1", "e1");
 
-        Graph.DirectedLabeledEdge e3 = new Graph.DirectedLabeledEdge("n50", "e50");
-        Graph.DirectedLabeledEdge e4 = new Graph.DirectedLabeledEdge("n50", "e50");
+        Graph.DirectedLabeledEdge<String, String> e3 = new Graph.DirectedLabeledEdge<String, String>("n50", "e50");
+        Graph.DirectedLabeledEdge<String, String> e4 = new Graph.DirectedLabeledEdge<String, String>("n50", "e50");
 
-        Graph.DirectedLabeledEdge e5 = new Graph.DirectedLabeledEdge("n4", "e4");
-        Graph.DirectedLabeledEdge e6 = new Graph.DirectedLabeledEdge("n4", "e4");
+        Graph.DirectedLabeledEdge<String, String> e5 = new Graph.DirectedLabeledEdge<String, String>("n4", "e4");
+        Graph.DirectedLabeledEdge<String, String> e6 = new Graph.DirectedLabeledEdge<String, String>("n4", "e4");
 
-        Graph.DirectedLabeledEdge e7 = new Graph.DirectedLabeledEdge("FrankWuNode", "FrankWuEdge");
-        Graph.DirectedLabeledEdge e8 = new Graph.DirectedLabeledEdge("FrankWuNode", "FrankWuEdge");
+        Graph.DirectedLabeledEdge<String, String> e7 = new Graph.DirectedLabeledEdge<String, String>("FrankWuNode", "FrankWuEdge");
+        Graph.DirectedLabeledEdge<String, String> e8 = new Graph.DirectedLabeledEdge<String, String>("FrankWuNode", "FrankWuEdge");
 
         assertTrue(e1.hashCode() == e2.hashCode());
         assertTrue(e3.hashCode() == e4.hashCode());

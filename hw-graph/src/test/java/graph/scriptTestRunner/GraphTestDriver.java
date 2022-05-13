@@ -29,7 +29,7 @@ public class GraphTestDriver {
     /**
      * String -> Graph: maps the names of graphs to the actual graph
      **/
-    private final Map<String, Graph> graphs = new HashMap<String, Graph>();
+    private final Map<String, Graph<String, String>> graphs = new HashMap<String, Graph<String, String>>();
     private final PrintWriter output;
     private final BufferedReader input;
 
@@ -114,7 +114,7 @@ public class GraphTestDriver {
     }
 
     private void createGraph(String graphName) {
-        graphs.put(graphName, new Graph());
+        graphs.put(graphName, new Graph<String, String>());
         output.println("created graph " + graphName);
     }
 
@@ -130,7 +130,7 @@ public class GraphTestDriver {
     }
 
     private void addNode(String graphName, String nodeName) {
-        Graph graph = graphs.get(graphName);
+        Graph<String, String> graph = graphs.get(graphName);
         graph.addNode(nodeName);
         output.println("added node " + nodeName + " to " + graphName);
     }
@@ -150,7 +150,7 @@ public class GraphTestDriver {
 
     private void addEdge(String graphName, String parentName, String childName,
                          String edgeLabel) {
-        Graph graph = graphs.get(graphName);
+        Graph<String, String> graph = graphs.get(graphName);
         graph.addEdge(parentName, childName, edgeLabel);
         output.println("added edge " + edgeLabel + " from " + parentName + " to " + childName + " in " + graphName);
     }
@@ -165,7 +165,7 @@ public class GraphTestDriver {
     }
 
     private void listNodes(String graphName) {
-        Graph graph = graphs.get(graphName);
+        Graph<String, String> graph = graphs.get(graphName);
         Set<String> nodes = graph.listNodes();
         List<String> sortedList = new ArrayList<>(nodes);
         Collections.sort(sortedList);
@@ -191,13 +191,13 @@ public class GraphTestDriver {
     }
 
     private void listChildren(String graphName, String parentName) {
-        Graph graph = graphs.get(graphName);
-        Set<Graph.DirectedLabeledEdge> edges = graph.childrenOf(parentName);
-        List<Graph.DirectedLabeledEdge> sortedList = new ArrayList<>(edges);
+        Graph<String, String> graph = graphs.get(graphName);
+        Set<Graph.DirectedLabeledEdge<String, String>> edges = graph.childrenOf(parentName);
+        List<Graph.DirectedLabeledEdge<String, String>> sortedList = new ArrayList<>(edges);
         // Collections.sort(sortedList, (a, b) -> a.getChild().compareTo(b.getChild()));
-        Collections.sort(sortedList, new Comparator<Graph.DirectedLabeledEdge>() {
+        Collections.sort(sortedList, new Comparator<Graph.DirectedLabeledEdge<String, String>>() {
             @Override
-            public int compare(Graph.DirectedLabeledEdge o1, Graph.DirectedLabeledEdge o2) {
+            public int compare(Graph.DirectedLabeledEdge<String, String> o1, Graph.DirectedLabeledEdge<String, String> o2) {
                 if (o1.getChild().compareTo(o2.getChild()) != 0) {
                     return o1.getChild().compareTo(o2.getChild());
                 }
@@ -206,7 +206,7 @@ public class GraphTestDriver {
         });
         output.print("the children of " + parentName + " in " + graphName + " are:");
         for (int i = 0; i < sortedList.size() - 1; i++) {
-            Graph.DirectedLabeledEdge edge = sortedList.get(i);
+            Graph.DirectedLabeledEdge<String, String> edge = sortedList.get(i);
             output.print(" " + edge.getChild() + "(" + edge.getLabel() + ") ");
         }
         if (sortedList.size() > 0) {
