@@ -1,0 +1,11 @@
+CreateGraph simpleGraph
+
+AddNode simpleGraph A
+AddNode simpleGraph B
+AddNode simpleGraph C
+
+AddEdge simpleGraph A B 2.74638505
+AddEdge simpleGraph B C 5.68364563
+AddEdge simpleGraph A C 9.72545219
+
+FindPath simpleGraph A C

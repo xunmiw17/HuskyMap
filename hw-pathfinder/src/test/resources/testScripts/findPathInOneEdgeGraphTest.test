@@ -1,0 +1,9 @@
+CreateGraph simpleGraph
+
+AddNode simpleGraph A
+AddNode simpleGraph B
+AddNode simpleGraph C
+
+AddEdge simpleGraph A B 3.0
+
+FindPath simpleGraph A B

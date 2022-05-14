@@ -194,7 +194,6 @@ public class GraphTestDriver {
         Graph<String, String> graph = graphs.get(graphName);
         Set<Graph.DirectedLabeledEdge<String, String>> edges = graph.childrenOf(parentName);
         List<Graph.DirectedLabeledEdge<String, String>> sortedList = new ArrayList<>(edges);
-        // Collections.sort(sortedList, (a, b) -> a.getChild().compareTo(b.getChild()));
         Collections.sort(sortedList, new Comparator<Graph.DirectedLabeledEdge<String, String>>() {
             @Override
             public int compare(Graph.DirectedLabeledEdge<String, String> o1, Graph.DirectedLabeledEdge<String, String> o2) {

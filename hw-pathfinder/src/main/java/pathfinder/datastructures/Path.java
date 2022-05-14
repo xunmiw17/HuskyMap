@@ -76,7 +76,7 @@ public class Path<T> implements Iterable<Path<T>.Segment> {
      * @param segmentCost The cost of the segment being added to the end of this path.
      * @return A new path representing the current path with the given segment appended to the end.
      */
-    public Path extend(T newEnd, double segmentCost) {
+    public Path<T> extend(T newEnd, double segmentCost) {
         checkRep();
         //
         Path<T> extendedPath = new Path<T>(start);
@@ -135,7 +135,7 @@ public class Path<T> implements Iterable<Path<T>.Segment> {
             }
 
             @Override
-            public Path.Segment next() {
+            public Path<T>.Segment next() {
                 return backingIterator.next();
             }
 
@@ -305,7 +305,7 @@ public class Path<T> implements Iterable<Path<T>.Segment> {
             if(!(obj instanceof Path<?>.Segment)) {
                 return false;
             }
-            Segment other = (Segment) obj;
+            Path<?>.Segment other = (Path<?>.Segment) obj;
             return other.getStart().equals(this.getStart())
                    && other.getEnd().equals(this.getEnd())
                    && (Double.compare(this.cost, other.cost) == 0);
