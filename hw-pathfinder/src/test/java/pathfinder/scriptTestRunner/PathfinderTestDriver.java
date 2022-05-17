@@ -13,7 +13,7 @@ package pathfinder.scriptTestRunner;
 
 import graph.Graph;
 import pathfinder.datastructures.Path;
-import pathfinder.dijkstra.Dijkstra;
+import pathfinder.Dijkstra;
 
 import java.io.*;
 import java.util.*;
@@ -24,16 +24,28 @@ import java.util.*;
  */
 public class PathfinderTestDriver {
 
+    /**
+     * String -> Graph: maps the names of graphs to the actual graph
+     **/
     private final Map<String, Graph<String, Double>> graphs = new HashMap<String, Graph<String, Double>>();
     private final PrintWriter output;
     private final BufferedReader input;
 
+    /**
+     * @spec.requires r != null && w != null
+     * @spec.effects Creates a new PathfinderTestDriver which reads command from
+     * {@code r} and writes results to {@code w}
+     **/
     // Leave this constructor public
     public PathfinderTestDriver(Reader r, Writer w) {
         input = new BufferedReader(r);
         output = new PrintWriter(w);
     }
 
+    /**
+     * @throws IOException if the input or output sources encounter an IOException
+     * @spec.effects Executes the commands read from the input and writes results to the output
+     **/
     // Leave this method public
     public void runTests() throws IOException {
         String inputLine;

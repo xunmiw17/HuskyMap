@@ -36,7 +36,7 @@ public class Graph<T, E> {
      * @spec.modifies this
      * @spec.effects adds a new node to the graph if it is not already in the graph, otherwise there is no effects.
      *
-     * @param node the node to be added to the graph
+     * @param node the node of the specified type to be added to the graph
      */
     public void addNode(T node) {
         if (!graph.containsKey(node)) {
@@ -55,9 +55,9 @@ public class Graph<T, E> {
      * @spec.effects adds a directed edge from the parent node to the child node with the given label if the graph does
      *              not already contain the edge, otherwise there is no effects.
      *
-     * @param parent the parent node
-     * @param child the child node
-     * @param label the label on the edge
+     * @param parent the parent node of the specified type
+     * @param child the child node of the specified type
+     * @param label the label on the edge of the specified type
      * @throws IllegalArgumentException if the graph does not contain either parent or child node
      */
     public void addEdge(T parent, T child, E label) {
@@ -84,7 +84,7 @@ public class Graph<T, E> {
      *
      * @spec.requires parent != null
      *
-     * @param parent the parent node
+     * @param parent the parent node of the specified type
      * @return a set of directed labeled edges, each containing the label of the edge and the child node
      * @throws IllegalArgumentException if the given parent node is not in the graph
      */
@@ -101,7 +101,7 @@ public class Graph<T, E> {
      *
      * @spec.requires node != null
      *
-     * @param node the node to be checked if it is in the graph
+     * @param node the node of the specified type to be checked if it is in the graph
      * @return true if the graph contains the node, false otherwise
      */
     public boolean containsNode(T node) {
@@ -114,9 +114,9 @@ public class Graph<T, E> {
      *
      * @spec.requires parent != null, child != null, and label != null
      *
-     * @param parent the parent node
-     * @param child the child node
-     * @param label the edge label
+     * @param parent the parent node of the specified type
+     * @param child the child node of the specified type
+     * @param label the edge label of the specified type
      * @return true if the graph contains the edge, false otherwise
      * @throws IllegalArgumentException if the graph does not contain either parent or child node
      */
@@ -200,8 +200,8 @@ public class Graph<T, E> {
          * @spec.requires child != null and label != null
          * @spec.effects creates a new directed labeled edge
          *
-         * @param child the node that the edge is pointing to
-         * @param label the label of the edge
+         * @param child the node of the specified type that the edge is pointing to
+         * @param label the label of the specified type of the edge
          */
         public DirectedLabeledEdge(T child, E label) {
             this.child = child;
