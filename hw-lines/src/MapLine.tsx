@@ -49,7 +49,7 @@ function yToLat(y: number): number {
  * longitude, which the React Leaflet map uses
  */
 class MapLine extends Component<MapLineProps, {}> {
-  constructor(props: any) {
+  constructor(props: MapLineProps) {
     super(props);
     this.state = {
       edgeText: "",
