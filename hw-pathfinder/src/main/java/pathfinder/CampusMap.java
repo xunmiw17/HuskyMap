@@ -22,12 +22,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The CampusMap class represents a graph of campus paths in the UW campus.
+ */
 public class CampusMap implements ModelAPI {
 
+    // RI: campusBuildings != null, campusPaths != null, campusGraph != null
+    // AF(this) = a campus map with all the campus buildings this.campusBuildings and all the campus paths this.campusPaths
+    //              and a graph which represents all the paths in the campus this.campusGraph
     private List<CampusBuilding> campusBuildings;
     private List<CampusPath> campusPaths;
 
     private Graph<Point, Double> campusGraph;
+
+    private static final boolean DEBUG = false;
 
     public CampusMap() {
         campusBuildings = CampusPathsParser.parseCampusBuildings("campus_buildings.csv");
@@ -47,6 +55,7 @@ public class CampusMap implements ModelAPI {
 
     @Override
     public boolean shortNameExists(String shortName) {
+        checkRep();
         for (CampusBuilding building : campusBuildings) {
             if (building.getShortName().equals(shortName)) {
                 return true;
@@ -57,6 +66,7 @@ public class CampusMap implements ModelAPI {
 
     @Override
     public String longNameForShort(String shortName) {
+        checkRep();
         for (CampusBuilding building : campusBuildings) {
             if (building.getShortName().equals(shortName)) {
                 return building.getLongName();
@@ -67,6 +77,7 @@ public class CampusMap implements ModelAPI {
 
     @Override
     public Map<String, String> buildingNames() {
+        checkRep();
         Map<String, String> map = new HashMap<>();
         for (CampusBuilding building : campusBuildings) {
             map.put(building.getShortName(), building.getLongName());
@@ -76,11 +87,11 @@ public class CampusMap implements ModelAPI {
 
     @Override
     public Path<Point> findShortestPath(String startShortName, String endShortName) {
+        checkRep();
         if (startShortName == null || endShortName == null ||
                 !shortNameExists(startShortName) || !shortNameExists(endShortName)) {
             throw new IllegalArgumentException("The building names provided is not valid or do not exist in campus map");
         }
-        // Graph<Point, Double> graph = campusGraph.getCampusGraph();
         Point start = null;
         Point end = null;
         for (CampusBuilding building : campusBuildings) {
@@ -92,7 +103,16 @@ public class CampusMap implements ModelAPI {
             }
             if (start != null && end != null) break;
         }
+        checkRep();
         return Dijkstra.dijkstra(campusGraph, start, end);
+    }
+
+    private void checkRep() {
+        if (DEBUG) {
+            assert campusBuildings != null;
+            assert campusPaths != null;
+            assert campusGraph != null;
+        }
     }
 
 }
