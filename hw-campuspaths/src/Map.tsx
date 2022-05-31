@@ -9,14 +9,13 @@
  * author.
  */
 
-import { LatLngExpression } from "leaflet";
-import React, { Component } from "react";
-import { MapContainer, TileLayer } from "react-leaflet";
+import {LatLngExpression} from "leaflet";
+import React, {Component} from "react";
+import {MapContainer, TileLayer} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import MapLine from "./MapLine";
-import { UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER } from "./Constants";
+import {UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER} from "./Constants";
 import {ColoredEdge} from "./types";
-import {start} from "repl";
 
 // This defines the location of the map. These are the coordinates of the UW Seattle campus
 const position: LatLngExpression = [UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER];
@@ -26,39 +25,29 @@ const position: LatLngExpression = [UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER];
 // with your hw-lines Map
 
 interface MapProps {
-  edgeList: ColoredEdge[]
+    // a list of colored edges
+    edgeList: ColoredEdge[]
 }
 
 interface MapState {}
 
 class Map extends Component<MapProps, MapState> {
 
-  // constructor(props: MapProps) {
-  //     super(props);
-  // }
-
   render() {
-
+    // Transforms the list of colored edges into map lines
     let lines: JSX.Element[] = [];
     for (let i = 0; i < this.props.edgeList.length; i++) {
         let edge: ColoredEdge = this.props.edgeList[i];
         let mapLine = <MapLine key={i} color={edge.color} x1={edge.x1} y1={edge.y1} x2={edge.x2} y2={edge.y2} />
         lines.push(mapLine);
     }
-    // let paths = this.props.edgeListObj;
-    // console.log(paths);
-    // for (let i = 0; i < this.props.edgeListObj.length; i++) {
-    //     let edge: ColoredEdge = this.props.edgeListObj[i];
-    //     let mapLine = <MapLine key={i} color={edge.color} x1={edge.x1} y1={edge.y1} x2={edge.x2} y2={edge.y2} />
-    //     lines.push(mapLine);
-    // }
 
     return (
       <div id="map">
         <MapContainer
           center={position}
           zoom={15}
-          scrollWheelZoom={false}
+          scrollWheelZoom={true}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -79,3 +68,4 @@ class Map extends Component<MapProps, MapState> {
 }
 
 export default Map;
+

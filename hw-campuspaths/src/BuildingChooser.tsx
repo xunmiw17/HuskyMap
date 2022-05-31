@@ -4,18 +4,17 @@ interface BuildingChooserProps {
     chooseStart(startName: string): void;
     chooseEnd(endName: string): void;
     findPath(): void;
-    reset(): void
+    reset(): void;
 
-    buildings: object
+    buildings: object;
+    startSelectVal: string;
+    endSelectVal: string;
 }
 
 class BuildingChooser extends Component<BuildingChooserProps, {}> {
 
-    // constructor(props: BuildingChooserProps) {
-    //     super(props);
-    // }
-
     render() {
+        // Transforms the buildings object into dropdown list
         let buildingObj = this.props.buildings;
         let buildingJSX: JSX.Element[] = [];
         buildingJSX.push(<option value="" key="" disabled>------</option>)
@@ -25,16 +24,16 @@ class BuildingChooser extends Component<BuildingChooserProps, {}> {
         }
 
         return (
-            <div>
+            <div id="buildingChooser">
                 <div>
                     <label htmlFor="startBuildings">Choose a start building</label>
-                    <select name="startBuildings" id="startSelect" defaultValue="" onChange={(evt) => { this.props.chooseStart(evt.target.value) }}>
+                    <select name="startBuildings" id="startSelect" value={this.props.startSelectVal} onChange={(evt) => { this.props.chooseStart(evt.target.value) }}>
                         { buildingJSX }
                     </select>
                 </div>
                 <div>
                     <label htmlFor="endBuildings">Choose an end building</label>
-                    <select name="endBuildings" id="endSelect" defaultValue="" onChange={(evt) => { this.props.chooseEnd(evt.target.value) }}>
+                    <select name="endBuildings" id="endSelect" value={this.props.endSelectVal} onChange={(evt) => { this.props.chooseEnd(evt.target.value) }}>
                         { buildingJSX }
                     </select>
                 </div>

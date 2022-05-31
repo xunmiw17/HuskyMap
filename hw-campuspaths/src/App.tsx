@@ -22,7 +22,11 @@ interface AppState {
     edgeList: ColoredEdge[];
     startName: string;
     endName: string;
+    // all building names on campus
     buildings: object;
+
+    startSelectVal: string;
+    endSelectVal: string;
 }
 
 class App extends Component<{}, AppState> {
@@ -34,6 +38,8 @@ class App extends Component<{}, AppState> {
             startName: "",
             endName: "",
             buildings: {},
+            startSelectVal: "",
+            endSelectVal: ""
         }
     }
 
@@ -41,25 +47,31 @@ class App extends Component<{}, AppState> {
         this.getBuildings();
     }
 
+    /**
+     * Gets all the building names from the server
+     */
     async getBuildings() {
         let resp = await fetch("http://localhost:4567/buildings");
         if (!resp.ok) {
-            alert("There are some server errors");
-            return "";
+            alert("Status code: " + resp.status + ", there has been a problem with fetching all the buildings from the server");
+            return;
         }
         let respJson = await resp.json();
         this.setState({ buildings: respJson });
     }
 
+    /**
+     * Finds the shortest path from the given start building to end building
+     */
     async findShortestPath() {
         let resp = await fetch("http://localhost:4567/shortestPath?start=" +
                                             this.state.startName + "&end=" + this.state.endName);
         if (!resp.ok) {
-            alert("There are some server errors");
+            alert("Status code: " + resp.status + ", there has been a problem with searching the shortest path");
             return;
         }
         let respJson = await resp.json();
-        let cost = respJson.cost;
+        // Gets the shortest path object and turns it into a list of colored edges
         let path = respJson.path;
         let coloredEdges = [];
         for (let i = 0; i < path.length; i++) {
@@ -84,9 +96,11 @@ class App extends Component<{}, AppState> {
                 <div>
                     <BuildingChooser chooseStart={(value) => {
                         this.setState({ startName: value })
+                        this.setState({ startSelectVal: value })
                     }}
                     chooseEnd={value => {
                         this.setState({ endName: value })
+                        this.setState({ endSelectVal: value })
                     }}
                     findPath={() => {
                         let start = this.state.startName;
@@ -101,11 +115,15 @@ class App extends Component<{}, AppState> {
                         this.setState({ edgeList: [] });
                         this.setState({ startName: "" });
                         this.setState({ endName: "" });
+                        this.setState({ startSelectVal: "" });
+                        this.setState({ endSelectVal: "" });
                     }}
-                    buildings={ this.state.buildings }/>
+                    buildings={ this.state.buildings }
+                    startSelectVal={this.state.startSelectVal}
+                    endSelectVal={this.state.endSelectVal}/>
                 </div>
                 <div>
-                    <Map edgeList={ this.state.edgeList } />
+                    <Map edgeList={ this.state.edgeList }/>
                 </div>
             </div>
         );
